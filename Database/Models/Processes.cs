@@ -11,11 +11,13 @@ namespace Database.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public Digrams digrams { get; set; }
-        public string form { get; set; }
-        public string script { get; set; }
+        public Digrams digram { get; set; }
+        public Guid form { get; set; }
+        public Guid script { get; set; }
+        public bool start { get; set; }
+        public bool end { get; set; }
         public ICollection<User> user { get; set; }
-        public Guid nextProcessId { get; set; }
-        public string divAttribute { get; set; }
+        public Guid nextProcessIdNo1 { get; set; }
+        public Guid nextProcessIdNo2 { get; set; }
     }
 }

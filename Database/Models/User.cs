@@ -12,7 +12,12 @@ namespace Database.Models
     {
         [Key]
         public Guid Id { get; set; }
+        public string userName { get; set; }
+        public byte[] passwordHash { get; set; }
+        public byte[] passwordSult { get; set; }
         public string Name { get; set; }
+        public DateTime createdOn { get; set; }
+        public Gender gender { get; set; }
         public Roles role { get; set; }
     }
 }

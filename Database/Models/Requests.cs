@@ -10,7 +10,7 @@ namespace Database.Models
     public class Requests
     {
         [Key]
-        public Guid guid { get; set; }
+        public Guid Id { get; set; }
         public User user { get; set; }
         public Processes startProcesses { get; set; }
     }

@@ -26,18 +26,20 @@ namespace Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    digramsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    form = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    script = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    nextProcessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    divAttribute = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    digramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    form = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    script = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    start = table.Column<bool>(type: "bit", nullable: false),
+                    end = table.Column<bool>(type: "bit", nullable: false),
+                    nextProcessIdNo1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    nextProcessIdNo2 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_processes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_processes_digrams_digramsId",
-                        column: x => x.digramsId,
+                        name: "FK_processes_digrams_digramId",
+                        column: x => x.digramId,
                         principalTable: "digrams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -48,7 +50,12 @@ namespace Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    passwordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    passwordSult = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createdOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    gender = table.Column<int>(type: "int", nullable: false),
                     role = table.Column<int>(type: "int", nullable: false),
                     ProcessesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -66,13 +73,13 @@ namespace Database.Migrations
                 name: "requests",
                 columns: table => new
                 {
-                    guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     startProcessesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_requests", x => x.guid);
+                    table.PrimaryKey("PK_requests", x => x.Id);
                     table.ForeignKey(
                         name: "FK_requests_processes_startProcessesId",
                         column: x => x.startProcessesId,
@@ -88,9 +95,9 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_processes_digramsId",
+                name: "IX_processes_digramId",
                 table: "processes",
-                column: "digramsId");
+                column: "digramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_requests_startProcessesId",

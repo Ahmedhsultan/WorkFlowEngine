@@ -43,34 +43,37 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("digramsId")
+                    b.Property<Guid>("digramId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("divAttribute")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("end")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("form")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("nextProcessId")
+                    b.Property<Guid>("form")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("script")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("nextProcessIdNo1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("nextProcessIdNo2")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("script")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("start")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("digramsId");
+                    b.HasIndex("digramId");
 
                     b.ToTable("processes");
                 });
 
             modelBuilder.Entity("Database.Models.Requests", b =>
                 {
-                    b.Property<Guid>("guid")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -80,7 +83,7 @@ namespace Database.Migrations
                     b.Property<Guid>("userId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("guid");
+                    b.HasKey("Id");
 
                     b.HasIndex("startProcessesId");
 
@@ -102,8 +105,26 @@ namespace Database.Migrations
                     b.Property<Guid?>("ProcessesId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("createdOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("gender")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("passwordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("passwordSult")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("role")
                         .HasColumnType("int");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -114,13 +135,13 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
-                    b.HasOne("Database.Models.Digrams", "digrams")
+                    b.HasOne("Database.Models.Digrams", "digram")
                         .WithMany()
-                        .HasForeignKey("digramsId")
+                        .HasForeignKey("digramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("digrams");
+                    b.Navigation("digram");
                 });
 
             modelBuilder.Entity("Database.Models.Requests", b =>

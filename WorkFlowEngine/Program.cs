@@ -1,9 +1,17 @@
+#region Library
 using Database;
 using Database.Models.Interfaces;
 using Database.Models.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WorkFlowEngine.Models.Interfaces;
+using WorkFlowEngine.Models.Services;
+#endregion
 
 
+#region Services
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
@@ -12,9 +20,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:DefultConnection"]));
-builder.Services.AddTransient(typeof(Irepository<>), typeof(BaseRepository<>));
-//builder.Services.AddScoped(typeof(ItokenService), typeof(TokenService));
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
+//builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
+builder.Services.AddScoped(typeof(ITokenServices), typeof(TokenServices));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -24,10 +33,11 @@ builder.Services.AddTransient(typeof(Irepository<>), typeof(BaseRepository<>));
             ValidateIssuer = false,
             ValidateAudience = false
         };
-    });*/
+    });
+#endregion
 
 
-
+#region Medelwares
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -36,6 +46,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+#endregion
