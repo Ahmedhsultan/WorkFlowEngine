@@ -8,8 +8,8 @@ namespace Database.Models.Interfaces
 {
     public interface IRequestsRepository
     {
-        Task<Requests> GetById(Guid recuestId);
+        Task<Requests> GetById(Guid requestId);
         Task<bool> addNewRequest(Requests request);
-        Task<bool> IsExistRequest(Guid recuestId);
+        Task<bool> IsExistRequest(Guid requestId);
     }
 }

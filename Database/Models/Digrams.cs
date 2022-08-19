@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,7 +11,10 @@ namespace Database.Models
     public class Digrams
     {
         [Key]
-        public Guid Id { get; set; }
-        public string DigramName { get; set; }
+        public Guid digramId { get; set; }
+        public string digramName { get; set; }
+        [Required]
+        public ICollection<User> outhUser { get; set; }
+        public ICollection<Processes> processes { get; set; }
     }
 }

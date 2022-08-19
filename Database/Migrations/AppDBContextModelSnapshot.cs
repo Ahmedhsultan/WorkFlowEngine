@@ -24,22 +24,22 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Digrams", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("digramId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DigramName")
+                    b.Property<string>("digramName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("digramId");
 
                     b.ToTable("digrams");
                 });
 
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("processId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -49,7 +49,7 @@ namespace Database.Migrations
                     b.Property<bool>("end")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("form")
+                    b.Property<Guid>("formId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("nextProcessIdNo1")
@@ -58,13 +58,13 @@ namespace Database.Migrations
                     b.Property<Guid>("nextProcessIdNo2")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("script")
+                    b.Property<Guid>("scriptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("start")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("processId");
 
                     b.HasIndex("digramId");
 
@@ -73,7 +73,7 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Requests", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("requsetId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -83,9 +83,10 @@ namespace Database.Migrations
                     b.Property<Guid>("userId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("requsetId");
 
-                    b.HasIndex("startProcessesId");
+                    b.HasIndex("startProcessesId")
+                        .IsUnique();
 
                     b.HasIndex("userId");
 
@@ -94,7 +95,7 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("userId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -102,7 +103,7 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ProcessesId")
+                    b.Property<Guid?>("ProcessesprocessId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("createdOn")
@@ -126,17 +127,32 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("userId");
 
-                    b.HasIndex("ProcessesId");
+                    b.HasIndex("ProcessesprocessId");
 
                     b.ToTable("user");
+                });
+
+            modelBuilder.Entity("DigramsUser", b =>
+                {
+                    b.Property<Guid>("digramsdigramId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("outhUseruserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("digramsdigramId", "outhUseruserId");
+
+                    b.HasIndex("outhUseruserId");
+
+                    b.ToTable("DigramsUser");
                 });
 
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
                     b.HasOne("Database.Models.Digrams", "digram")
-                        .WithMany()
+                        .WithMany("processes")
                         .HasForeignKey("digramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -147,13 +163,13 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Requests", b =>
                 {
                     b.HasOne("Database.Models.Processes", "startProcesses")
-                        .WithMany()
-                        .HasForeignKey("startProcessesId")
+                        .WithOne("request")
+                        .HasForeignKey("Database.Models.Requests", "startProcessesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Database.Models.User", "user")
-                        .WithMany()
+                        .WithMany("requests")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -166,13 +182,41 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.User", b =>
                 {
                     b.HasOne("Database.Models.Processes", null)
-                        .WithMany("user")
-                        .HasForeignKey("ProcessesId");
+                        .WithMany("outhUser")
+                        .HasForeignKey("ProcessesprocessId");
+                });
+
+            modelBuilder.Entity("DigramsUser", b =>
+                {
+                    b.HasOne("Database.Models.Digrams", null)
+                        .WithMany()
+                        .HasForeignKey("digramsdigramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("outhUseruserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Database.Models.Digrams", b =>
+                {
+                    b.Navigation("processes");
                 });
 
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
-                    b.Navigation("user");
+                    b.Navigation("outhUser");
+
+                    b.Navigation("request")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Database.Models.User", b =>
+                {
+                    b.Navigation("requests");
                 });
 #pragma warning restore 612, 618
         }

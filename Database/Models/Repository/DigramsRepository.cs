@@ -28,12 +28,19 @@ namespace Database.Models.Repository
 
         public async Task<bool> IsExistDigram(Guid digramId)
         {
-            return await _appDBContext.digrams.AnyAsync(x => x.Id == digramId);
+            return await _appDBContext.digrams.AnyAsync(x => x.digramId == digramId);
         }
 
         public async Task<Digrams> GetById(Guid digramId)
         {
             return await _appDBContext.digrams.FindAsync(digramId);
+        }
+
+        public async Task<bool> RemoveDigrame(Guid digramId)
+        {
+            Digrams digram = await _appDBContext.digrams.FindAsync(digramId);
+            _appDBContext.digrams.Remove(digram);
+            return true;
         }
     }
 }

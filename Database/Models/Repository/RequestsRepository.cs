@@ -1,16 +1,11 @@
 ﻿#region Library
 using Database.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Database.Models.Repository
 {
-    public class RequestsRepository:IRequestsRepository
+    public class RequestsRepository : IRequestsRepository
     {
         #region Debendancy injection
         private readonly AppDBContext _appDBContext;
@@ -27,14 +22,14 @@ namespace Database.Models.Repository
             return true;
         }
 
-        public async Task<Requests> GetById(Guid recuestId)
+        public async Task<Requests> GetById(Guid requestId)
         {
-            return await _appDBContext.requests.FindAsync(recuestId);
+            return await _appDBContext.requests.FindAsync(requestId);
         }
 
-        public async Task<bool> IsExistRequest(Guid recuestId)
+        public async Task<bool> IsExistRequest(Guid requestId)
         {
-            return await _appDBContext.requests.AnyAsync(x => x.Id == recuestId);
+            return await _appDBContext.requests.AnyAsync(x => x.requsetId == requestId);
         }
     }
 }

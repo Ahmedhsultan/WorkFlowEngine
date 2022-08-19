@@ -11,5 +11,6 @@ namespace Database.Models.Interfaces
         Task<Digrams> GetById(Guid digramId);
         Task<bool> addNewDigram(Digrams digram);
         Task<bool> IsExistDigram(Guid digramId);
+        Task<bool> RemoveDigrame(Guid digramId);
     }
 }

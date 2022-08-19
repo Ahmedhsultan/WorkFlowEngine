@@ -11,7 +11,7 @@ namespace Database.Models
     public class User
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid userId { get; set; }
         public string userName { get; set; }
         public byte[] passwordHash { get; set; }
         public byte[] passwordSult { get; set; }
@@ -19,5 +19,7 @@ namespace Database.Models
         public DateTime createdOn { get; set; }
         public Gender gender { get; set; }
         public Roles role { get; set; }
+        public ICollection<Digrams> digrams { get; set; }
+        public ICollection<Requests> requests { get; set; }
     }
 }

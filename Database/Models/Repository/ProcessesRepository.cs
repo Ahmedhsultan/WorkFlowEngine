@@ -28,7 +28,7 @@ namespace Database.Models.Repository
 
         public async Task<bool> IsExistProcess(Guid processId)
         {
-            return await _appDBContext.processes.AnyAsync(x => x.Id == processId);
+            return await _appDBContext.processes.AnyAsync(x => x.digramId == processId);
         }
 
         public async Task<Processes> GetById(Guid processId)
