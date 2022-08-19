@@ -37,7 +37,7 @@ namespace WorkFlowEngine.Controllers
 
                 var user = new User
                 {
-                    userName = userDTO.userName,
+                    userName = userDTO.userName.ToLower(),
                     passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDTO.Password)),
                     passwordSult = hmac.Key,
                     Name = userDTO.fullName,

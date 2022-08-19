@@ -47,7 +47,7 @@ namespace Database.Models.Repository
         {
             if (await ExistUserName(userName))
             {
-                User user = await _appDBContext.user.SingleOrDefaultAsync(x => x.userName == userName);
+                User user = await _appDBContext.user.SingleOrDefaultAsync(x => x.userName == userName.ToLower());
                 //.Include(m => m.messages)
                 return user;
             }
@@ -56,7 +56,7 @@ namespace Database.Models.Repository
 
         public async Task<bool> ExistUserName(string userName)
         {
-            return await _appDBContext.user.AnyAsync(x => x.userName == userName);
+            return await _appDBContext.user.AnyAsync(x => x.userName == userName.ToLower());
         }
     }
 }

@@ -23,7 +23,7 @@ namespace WorkFlowEngine.Controllers
         [HttpPost("CreateDigram")]
         public async Task<ActionResult> CreateDigram(DigramDTO digramDTO)
         {
-            if (await _iUnitOfWork.userRepository.ExistUserName(digramDTO.userName))
+            if (await _iUnitOfWork.userRepository.ExistUserName(digramDTO.userName.ToLower()))
             {
                 User user = await _iUnitOfWork.userRepository.GetByUserName(digramDTO.userName);
                 Digrams digram = new Digrams()
@@ -46,12 +46,12 @@ namespace WorkFlowEngine.Controllers
                     {
                         processId = process.processId,
                         digram = digram,
-                        formId = new Guid(process.form),
-                        scriptId = new Guid(process.script),
+                        formId = process.form,
+                        scriptId = process.script,
                         start = process.start,
                         end = process.end,
-                        nextProcessIdNo1 = new Guid(process.nextProcessIdNo1),
-                        nextProcessIdNo2 = new Guid(process.nextProcessIdNo2),
+                        nextProcessIdNo1 = process.nextProcessIdNo1,
+                        nextProcessIdNo2 = process.nextProcessIdNo2,
                     });
                 }
 
