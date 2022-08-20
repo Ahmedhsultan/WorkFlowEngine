@@ -26,10 +26,16 @@ namespace WorkFlowEngine.Controllers
             if (await _iUnitOfWork.userRepository.ExistUserName(digramDTO.userName.ToLower()))
             {
                 User user = await _iUnitOfWork.userRepository.GetByUserName(digramDTO.userName);
+                List<User> outhDigramUsers = new List<User>();
+                foreach (var outhUserName in digramDTO.outhUserName)
+                {
+                    outhDigramUsers.Add(await _iUnitOfWork.userRepository.GetByUserName(outhUserName));
+                }
                 Digrams digram = new Digrams()
                 {
                     digramId = digramDTO.digramId,
                     digramName = digramDTO.digramName,
+                    outhUser = outhDigramUsers
                 };
 
                 //Add to digram table
@@ -38,10 +44,16 @@ namespace WorkFlowEngine.Controllers
 
                 await _iUnitOfWork.Complete();
                 await _iUnitOfWork.digramsRepository.addNewDigram(digram);
-                
+
                 //Add to process table
                 foreach (var process in digramDTO.ProcessList)
                 {
+                    List<User> outhUserList = new List<User>();
+                    foreach (string outhUserName in process.usersOthenticated)
+                    {
+                        outhUserList.Add(await _iUnitOfWork.userRepository.GetByUserName(outhUserName));
+                    }
+
                     await _iUnitOfWork.processRepository.addNewProcess(new Processes()
                     {
                         processId = process.processId,
@@ -50,6 +62,7 @@ namespace WorkFlowEngine.Controllers
                         scriptId = process.script,
                         start = process.start,
                         end = process.end,
+                        outhUser = outhUserList,
                         nextProcessIdNo1 = process.nextProcessIdNo1,
                         nextProcessIdNo2 = process.nextProcessIdNo2,
                     });
@@ -67,6 +80,31 @@ namespace WorkFlowEngine.Controllers
                 await _iUnitOfWork.Complete();
 
                 return Ok();
+            }
+            return BadRequest("Invalid UserName");
+        }
+
+        [HttpPost("GetDigram")]
+        public async Task<ActionResult<DigramDTO>> GetDigram(GetDigramDTO getDigramDTO)
+        {
+            if (await _iUnitOfWork.userRepository.ExistUserName(getDigramDTO.userName))
+            {
+                User user = await _iUnitOfWork.userRepository.GetByUserName(getDigramDTO.userName);
+                if (await _iUnitOfWork.digramsRepository.IsExistDigram(user))
+                {
+                    Digrams digram = await _iUnitOfWork.digramsRepository.GetByUser(user);
+
+                    DigramDTO digramDTO = new DigramDTO()
+                    {
+                        userName = user.userName,
+                        digramId = digram.digramId,
+                        digramName = digram.digramName,
+                        ProcessList = null
+                    };
+
+                    return Ok(digramDTO);
+                }
+                return BadRequest("Invalid Digram");
             }
             return BadRequest("Invalid UserName");
         }

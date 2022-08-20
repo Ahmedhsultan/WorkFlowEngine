@@ -12,5 +12,7 @@ namespace Database.Models.Interfaces
         Task<bool> addNewDigram(Digrams digram);
         Task<bool> IsExistDigram(Guid digramId);
         Task<bool> RemoveDigrame(Guid digramId);
+        Task<bool> IsExistDigram(User user);
+        Task<Digrams> GetByUser(User user);
     }
 }

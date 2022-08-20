@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class tanble : Migration
+    public partial class t : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,24 @@ namespace Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_digrams", x => x.digramId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user",
+                columns: table => new
+                {
+                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    passwordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    passwordSult = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createdOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    gender = table.Column<int>(type: "int", nullable: false),
+                    role = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user", x => x.userId);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,30 +64,6 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user",
-                columns: table => new
-                {
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    passwordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    passwordSult = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    createdOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    gender = table.Column<int>(type: "int", nullable: false),
-                    role = table.Column<int>(type: "int", nullable: false),
-                    ProcessesprocessId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user", x => x.userId);
-                    table.ForeignKey(
-                        name: "FK_user_processes_ProcessesprocessId",
-                        column: x => x.ProcessesprocessId,
-                        principalTable: "processes",
-                        principalColumn: "processId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DigramsUser",
                 columns: table => new
                 {
@@ -87,6 +81,30 @@ namespace Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DigramsUser_user_outhUseruserId",
+                        column: x => x.outhUseruserId,
+                        principalTable: "user",
+                        principalColumn: "userId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProcessesUser",
+                columns: table => new
+                {
+                    outhUseruserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    processesprocessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProcessesUser", x => new { x.outhUseruserId, x.processesprocessId });
+                    table.ForeignKey(
+                        name: "FK_ProcessesUser_processes_processesprocessId",
+                        column: x => x.processesprocessId,
+                        principalTable: "processes",
+                        principalColumn: "processId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProcessesUser_user_outhUseruserId",
                         column: x => x.outhUseruserId,
                         principalTable: "user",
                         principalColumn: "userId",
@@ -129,6 +147,11 @@ namespace Database.Migrations
                 column: "digramId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProcessesUser_processesprocessId",
+                table: "ProcessesUser",
+                column: "processesprocessId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_requests_startProcessesId",
                 table: "requests",
                 column: "startProcessesId",
@@ -138,11 +161,6 @@ namespace Database.Migrations
                 name: "IX_requests_userId",
                 table: "requests",
                 column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_ProcessesprocessId",
-                table: "user",
-                column: "ProcessesprocessId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -151,13 +169,16 @@ namespace Database.Migrations
                 name: "DigramsUser");
 
             migrationBuilder.DropTable(
+                name: "ProcessesUser");
+
+            migrationBuilder.DropTable(
                 name: "requests");
 
             migrationBuilder.DropTable(
-                name: "user");
+                name: "processes");
 
             migrationBuilder.DropTable(
-                name: "processes");
+                name: "user");
 
             migrationBuilder.DropTable(
                 name: "digrams");

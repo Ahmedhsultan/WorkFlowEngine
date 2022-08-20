@@ -13,7 +13,6 @@ namespace Database.Models
         [Key]
         public Guid digramId { get; set; }
         public string digramName { get; set; }
-        [Required]
         public ICollection<User> outhUser { get; set; }
         public ICollection<Processes> processes { get; set; }
     }
