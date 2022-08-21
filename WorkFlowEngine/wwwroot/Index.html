@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Workflow Engine</title>
+    <meta charset="utf-8" />
+    <!-- Common packages: jQuery, Bootstrap, jsTree -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/pdf-lib"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+    <!-- this project files -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/Insex.css" rel="stylesheet" />
+    <script src="js/index.js"></script>
+</head>
+<body>
+    <div style="height: 100vh; ">
+        <!--WorkFlow-->
+        <div id="workFlow" hidden class="col-sm-10 row align-items-center">
+            <!--Card-->
+            <div class="col-sm-2 ">
+                <div id="Card" class="draggable card text-white bg-primary " style="max-width: 20rem;">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <p id="properties" class="card-text">Guid: ,Outh UserName: ,Form Name:</p>
+                    </div>
+                </div>
+            </div>
+            <!--Save Button-->
+            <div id="drop" class="col-sm-8 " style="height: 100vh">
+                <button class="col-sm-4 btn btn-lg btn-primary align-bottom" type="button" id="Save">Save</button>
+                <div class="col-sm-4 droppable justify-content-center" style="height: 100vh; " ></div>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <!--User Info-->
+            <div>
+                <!--Register User-->
+                <div class="form-group">
+                    <label class="form-label mt-4">Register</label>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="Register-UserName" placeholder="name@example.com">
+                        <label for="floatingInput">User Name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="Register-Password" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-lg btn-primary" type="button" id="Register">Register</button>
+                    </div>
+                </div>
+                <!--Login User-->
+                <div class="form-group">
+                    <label class="form-label mt-4">logIn</label>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="Login-UserName" placeholder="name@example.com">
+                        <label for="floatingInput">User Name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="Login-Password" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-lg btn-primary" type="button" id="Login">LogIn</button>
+                    </div>
+                </div>
+            </div>
+            <!--Task Properts-->
+            <div id="propertiestool" hidden>
+                <input type="text" class="form-control" id="Guid"value="Doe">
+                <label for="floatingInput">Guid</label>
+                <input type="text" class="form-control" id="Form"value="Doe">
+                <label for="floatingInput">Form Name</label>
+                <input type="text" class="form-control" id="OuthUser"value="Doe">
+                <label for="floatingInput">Outh UserName</label>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

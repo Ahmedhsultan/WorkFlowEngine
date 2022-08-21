@@ -5,8 +5,7 @@ namespace WorkFlowEngine.Models.DTOs.ProccesDigram
     public class DigramDTO
     {
         public string userName { get; set; }
-        [Required]
-        public Guid digramId { get; set; }
+        public Guid digramId { get; set; } = new Guid();
         [Required]
         public string digramName { get; set; }
         public List<string> outhUserName { get; set; }

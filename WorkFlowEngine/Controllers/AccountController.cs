@@ -15,7 +15,7 @@ namespace WorkFlowEngine.Controllers
     [Route("api/[Controller]")]
     public class AccountController : Controller
     {
-        #region Dependance Injection
+        #region Dependancy Injection
         private IUnitOfWork _UniteOfWork;
         private ITokenServices _Tokenservice;
         public AccountController(IUnitOfWork _iUniteOfWork, ITokenServices _tokenservice)
