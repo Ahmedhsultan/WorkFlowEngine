@@ -26,16 +26,21 @@ namespace WorkFlowEngine.Controllers
             if (await _iUnitOfWork.userRepository.ExistUserName(digramDTO.userName.ToLower()))
             {
                 User user = await _iUnitOfWork.userRepository.GetByUserName(digramDTO.userName);
-                List<User> outhDigramUsers = new List<User>();
-                foreach (var outhUserName in digramDTO.outhUserName)
+                List<User> adminDigramUsers = new List<User>();
+                foreach (var outhUserName in digramDTO.adminUserName)
                 {
-                    outhDigramUsers.Add(await _iUnitOfWork.userRepository.GetByUserName(outhUserName));
+                    adminDigramUsers.Add(await _iUnitOfWork.userRepository.GetByUserName(outhUserName));
+                }
+                List<User> initiateDigramUsers = new List<User>();
+                foreach (var initiateUserName in digramDTO.initiateUserName)
+                {
+                    initiateDigramUsers.Add(await _iUnitOfWork.userRepository.GetByUserName(initiateUserName));
                 }
                 Digrams digram = new Digrams()
                 {
                     digramId = digramDTO.digramId,
                     digramName = digramDTO.digramName,
-                    outhUser = outhDigramUsers
+                    adminUsers = adminDigramUsers,
                 };
 
                 //Add to digram table
@@ -56,24 +61,25 @@ namespace WorkFlowEngine.Controllers
 
                     await _iUnitOfWork.processRepository.addNewProcess(new Processes()
                     {
-                        processId = process.processId,
+                        processId = new Guid(process.processId),
                         digram = digram,
-                        formId = process.form,
-                        scriptId = process.script,
+                        formId = new Guid(process.form),
+                        scriptId = new Guid(process.script),
                         start = process.start,
                         end = process.end,
                         outhUser = outhUserList,
-                        nextProcessIdNo1 = process.nextProcessIdNo1,
-                        nextProcessIdNo2 = process.nextProcessIdNo2,
+                        nextProcessIdNo1 = new Guid(process.nextProcessIdNo1),
+                        nextProcessIdNo2 = new Guid(process.nextProcessIdNo2),
                     });
                 }
+                await _iUnitOfWork.Complete();
 
                 //Add to request table
                 await _iUnitOfWork.requestsRepository.addNewRequest(new Requests()
                 {
                     //check no2
-                    startProcesses = await _iUnitOfWork.processRepository.GetById(digramDTO.ProcessList[0].processId),
-                    user = user
+                    startProcesses = await _iUnitOfWork.processRepository.GetById(new Guid(digramDTO.ProcessList[0].processId)),
+                    user = initiateDigramUsers
                 });
 
                 //Save all changes

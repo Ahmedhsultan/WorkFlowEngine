@@ -33,7 +33,7 @@ namespace Database.Models.Repository
 
         public async Task<Processes> GetById(Guid processId)
         {
-            return await _appDBContext.processes.FindAsync(processId);
+            return await _appDBContext.processes.Include(x => x.outhUser).FirstAsync(y => y.processId == processId);
         }
     }
 }

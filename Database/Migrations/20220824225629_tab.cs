@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class t : Migration
+    public partial class tab : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,12 +67,12 @@ namespace Database.Migrations
                 name: "DigramsUser",
                 columns: table => new
                 {
-                    digramsdigramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    outhUseruserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    adminUsersuserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    digramsdigramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DigramsUser", x => new { x.digramsdigramId, x.outhUseruserId });
+                    table.PrimaryKey("PK_DigramsUser", x => new { x.adminUsersuserId, x.digramsdigramId });
                     table.ForeignKey(
                         name: "FK_DigramsUser_digrams_digramsdigramId",
                         column: x => x.digramsdigramId,
@@ -80,8 +80,8 @@ namespace Database.Migrations
                         principalColumn: "digramId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DigramsUser_user_outhUseruserId",
-                        column: x => x.outhUseruserId,
+                        name: "FK_DigramsUser_user_adminUsersuserId",
+                        column: x => x.adminUsersuserId,
                         principalTable: "user",
                         principalColumn: "userId",
                         onDelete: ReferentialAction.Cascade);
@@ -116,7 +116,6 @@ namespace Database.Migrations
                 columns: table => new
                 {
                     requsetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     startProcessesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -128,18 +127,79 @@ namespace Database.Migrations
                         principalTable: "processes",
                         principalColumn: "processId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tasks",
+                columns: table => new
+                {
+                    taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    taskName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    processId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tasks", x => x.taskId);
                     table.ForeignKey(
-                        name: "FK_requests_user_userId",
+                        name: "FK_tasks_processes_processId",
+                        column: x => x.processId,
+                        principalTable: "processes",
+                        principalColumn: "processId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestsUser",
+                columns: table => new
+                {
+                    requestsrequsetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestsUser", x => new { x.requestsrequsetId, x.userId });
+                    table.ForeignKey(
+                        name: "FK_RequestsUser_requests_requestsrequsetId",
+                        column: x => x.requestsrequsetId,
+                        principalTable: "requests",
+                        principalColumn: "requsetId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequestsUser_user_userId",
                         column: x => x.userId,
                         principalTable: "user",
                         principalColumn: "userId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TasksUser",
+                columns: table => new
+                {
+                    outhUseruserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    taskstaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TasksUser", x => new { x.outhUseruserId, x.taskstaskId });
+                    table.ForeignKey(
+                        name: "FK_TasksUser_tasks_taskstaskId",
+                        column: x => x.taskstaskId,
+                        principalTable: "tasks",
+                        principalColumn: "taskId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TasksUser_user_outhUseruserId",
+                        column: x => x.outhUseruserId,
+                        principalTable: "user",
+                        principalColumn: "userId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_DigramsUser_outhUseruserId",
+                name: "IX_DigramsUser_digramsdigramId",
                 table: "DigramsUser",
-                column: "outhUseruserId");
+                column: "digramsdigramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_processes_digramId",
@@ -158,9 +218,20 @@ namespace Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_requests_userId",
-                table: "requests",
+                name: "IX_RequestsUser_userId",
+                table: "RequestsUser",
                 column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tasks_processId",
+                table: "tasks",
+                column: "processId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TasksUser_taskstaskId",
+                table: "TasksUser",
+                column: "taskstaskId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -172,13 +243,22 @@ namespace Database.Migrations
                 name: "ProcessesUser");
 
             migrationBuilder.DropTable(
+                name: "RequestsUser");
+
+            migrationBuilder.DropTable(
+                name: "TasksUser");
+
+            migrationBuilder.DropTable(
                 name: "requests");
 
             migrationBuilder.DropTable(
-                name: "processes");
+                name: "tasks");
 
             migrationBuilder.DropTable(
                 name: "user");
+
+            migrationBuilder.DropTable(
+                name: "processes");
 
             migrationBuilder.DropTable(
                 name: "digrams");

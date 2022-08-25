@@ -16,6 +16,7 @@ namespace Database.Models
         public Guid digramId { get; set; }
         public Digrams digram { get; set; }
         public Requests request { get; set; }
+        public Tasks task { get; set; }
         public ICollection<User> outhUser { get; set; }
     }
 }

@@ -33,14 +33,14 @@ namespace Database.Models.Repository
 
         public async Task<bool> IsExistDigram(User user)
         {
-            List<Digrams> userDigramsList = await _appDBContext.digrams.Where(x => x.outhUser == user).ToListAsync();
-            return await _appDBContext.digrams.AnyAsync(x => x.outhUser == user);
+            List<Digrams> userDigramsList = await _appDBContext.digrams.Where(x => x.adminUsers == user).ToListAsync();
+            return await _appDBContext.digrams.AnyAsync(x => x.adminUsers == user);
         }
 
         public async Task<Digrams> GetByUser(User user)
         {
-            IEnumerable<Digrams> userDigramsList = await _appDBContext.digrams.Where(x => x.outhUser == user).ToListAsync();
-            return await _appDBContext.digrams.SingleAsync(x => x.outhUser == user);
+            IEnumerable<Digrams> userDigramsList = await _appDBContext.digrams.Where(x => x.adminUsers == user).ToListAsync();
+            return await _appDBContext.digrams.SingleAsync(x => x.adminUsers == user);
         }
 
         public async Task<Digrams> GetById(Guid digramId)

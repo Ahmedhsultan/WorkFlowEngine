@@ -27,9 +27,19 @@ namespace Database.Models.Repository
             return await _appDBContext.requests.FindAsync(requestId);
         }
 
+        public async Task<IEnumerable<Requests>> GetByUser(User user)
+        {
+            return await _appDBContext.requests.Where(x => x.user.Any(c => c.userId == user.userId)).ToListAsync();
+        }
+
         public async Task<bool> IsExistRequest(Guid requestId)
         {
             return await _appDBContext.requests.AnyAsync(x => x.requsetId == requestId);
+        }
+
+        public async Task<bool> IsExistRequest(User user)
+        {
+            return await _appDBContext.requests.AnyAsync(x => x.user.Any(c => c.userId == user.userId));
         }
     }
 }

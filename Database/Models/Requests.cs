@@ -12,9 +12,8 @@ namespace Database.Models
     {
         [Key]
         public Guid requsetId { get; set; }
-        public Guid userId { get; set; }
         public Guid startProcessesId { get; set; }
-        public User user { get; set; }
+        public List<User> user { get; set; }
         public Processes startProcesses { get; set; }
     }
 }

@@ -28,13 +28,26 @@
                 <div id="Card" class="draggable card text-white bg-primary " style="max-width: 20rem;">
                     <div class="card-header">Header</div>
                     <div class="card-body">
-                        <p id="properties" class="card-text">Guid: ,Outh UserName: ,Form Name:</p>
+                        <p id="Guid" class="card-text"></p>
+                        <p id="OuthUserName" class="card-text"></p>
+                        <p id="FormName" class="card-text"></p>
                     </div>
                 </div>
             </div>
-            <!--Save Button-->
             <div id="drop" class="col-sm-8 " style="height: 100vh">
-                <button class="col-sm-4 btn btn-lg btn-primary align-bottom" type="button" id="Save">Save</button>
+                <!--Buttons-->
+                <div class="col-sm-4">
+                    <!--Save Buttons-->
+                    <div>
+                        <button class=" btn btn-lg btn-primary" type="button" id="Save">Save</button>
+                    </div>
+                    <!--Requests Buttons-->
+                    <div id="Requests">
+                    </div>
+                    <!--Tasks Buttons-->
+                    <div id="Tasks">
+                    </div>
+                </div>
                 <div class="col-sm-4 droppable justify-content-center" style="height: 100vh; " ></div>
             </div>
         </div>
@@ -75,8 +88,8 @@
             </div>
             <!--Task Properts-->
             <div id="propertiestool" hidden>
-                <input type="text" class="form-control" id="Guid"value="Doe">
-                <label for="floatingInput">Guid</label>
+                <input hidden type="text" class="form-control" id="Guid"value="Doe">
+                <label hidden for="floatingInput">Guid</label>
                 <input type="text" class="form-control" id="Form"value="Doe">
                 <label for="floatingInput">Form Name</label>
                 <input type="text" class="form-control" id="OuthUser"value="Doe">

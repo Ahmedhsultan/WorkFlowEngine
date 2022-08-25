@@ -21,6 +21,7 @@ namespace Database.Models
         public Roles role { get; set; }
         public ICollection<Digrams> digrams { get; set; }
         public ICollection<Requests> requests { get; set; }
+        public ICollection<Tasks> tasks { get; set; }
         public ICollection<Processes> processes { get; set; }
     }
 }

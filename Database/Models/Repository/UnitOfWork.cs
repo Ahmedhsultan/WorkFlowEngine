@@ -13,6 +13,7 @@ namespace Database.Models.Repository
         public IDigramsRepository digramsRepository { get; private set; }
         public IProcessRepository processRepository { get; private set; }
         public IRequestsRepository requestsRepository { get; private set; }
+        public ITasksRepository tasksRepository { get; private set; }
 
         private readonly AppDBContext _appDBContext;
 
@@ -24,6 +25,7 @@ namespace Database.Models.Repository
             digramsRepository = new DigramsRepository(_appDBContext);
             processRepository = new ProcessesRepository(_appDBContext);
             requestsRepository = new RequestsRepository(_appDBContext);
+            tasksRepository = new TasksRepository(_appDBContext);
         }
 
 
