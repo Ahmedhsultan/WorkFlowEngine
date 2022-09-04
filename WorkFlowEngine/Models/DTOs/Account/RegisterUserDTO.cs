@@ -6,12 +6,18 @@ namespace WorkFlowEngine.Models.DTOs.Account
     public class RegisterUserDTO
     {
         [Required]
-        public string fullName { get; set; }
+        public string firstName { get; set; }
+        [Required]
+        public string email { get; set; }
+        [Required]
+        public string lastName { get; set; }
         [Required, MinLength(5)]
         public string userName { get; set; }
         [Required, MinLength(5)]
-        public string Password { get; set; }
+        public string password { get; set; }
         [Required]
-        public Gender Gender { get; set; }
+        public Gender gender { get; set; }
+        [Required]
+        public Roles role { get; set; }
     }
 }

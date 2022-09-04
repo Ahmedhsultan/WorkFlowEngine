@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class tab : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,12 +27,14 @@ namespace Database.Migrations
                 {
                     userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     passwordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     passwordSult = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    role = table.Column<int>(type: "int", nullable: false),
                     createdOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    gender = table.Column<int>(type: "int", nullable: false),
-                    role = table.Column<int>(type: "int", nullable: false)
+                    gender = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

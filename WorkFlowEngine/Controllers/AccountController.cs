@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Text;
 using WorkFlowEngine.Models.DTOs.Account;
 using WorkFlowEngine.Models.Interfaces;
-using WorkFlowEngine.Models.Services;
 #endregion
 
 namespace WorkFlowEngine.Controllers
@@ -30,7 +29,7 @@ namespace WorkFlowEngine.Controllers
         public async Task<ActionResult<UserToClientDTO>> Register(RegisterUserDTO userDTO)
         {
             //Check if this userName is used from other user
-            if (!await _UniteOfWork.userRepository.ExistUserName(userDTO.userName))
+            if (!await _UniteOfWork.userRepository.ExistUserName(userDTO.userName.ToLower()))
             {
                 //Hashing the password befor saving in database
                 using var hmac = new HMACSHA512();
@@ -38,21 +37,24 @@ namespace WorkFlowEngine.Controllers
                 var user = new User
                 {
                     userName = userDTO.userName.ToLower(),
-                    passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDTO.Password)),
+                    email = userDTO.email.ToLower(),
+                    passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDTO.password)),
                     passwordSult = hmac.Key,
-                    Name = userDTO.fullName,
+                    firstName = userDTO.firstName,
+                    lastName = userDTO.lastName,
+                    role = userDTO.role,
                     createdOn = DateTime.Now,
-                    gender = userDTO.Gender
+                    gender = userDTO.gender
                 };
                 //Add user to databse
                 await _UniteOfWork.userRepository.addNewUser(user);
                 await _UniteOfWork.Complete();
 
-                return Ok(new UserToClientDTO()
+                return Ok(/*new UserToClientDTO()
                 {
                     userName = user.userName,
                     token = _Tokenservice.GetToken(user)
-                });
+                }*/);
             }
             return BadRequest("UserName is taken");
         }
@@ -61,10 +63,10 @@ namespace WorkFlowEngine.Controllers
         public async Task<ActionResult<UserToClientDTO>> Login(LoginUserDTO loginDTO)
         {
             //Check if username is right
-            if (await _UniteOfWork.userRepository.ExistUserName(loginDTO.userName))
+            if (await _UniteOfWork.userRepository.ExistUserName(loginDTO.userName.ToLower()))
             {
                 //Get user from databse
-                User user = await _UniteOfWork.userRepository.GetByUserName(loginDTO.userName);
+                User user = await _UniteOfWork.userRepository.GetByUserName(loginDTO.userName.ToLower());
 
                 //Hash password which enterd by client
                 using var hmac = new HMACSHA512(user.passwordSult);
@@ -78,6 +80,11 @@ namespace WorkFlowEngine.Controllers
                 return Ok(new UserToClientDTO()
                 {
                     userName = user.userName,
+                    email = user.email,
+                    firstName= user.firstName,
+                    lastName = user.lastName,
+                    Gender = user.gender,
+                    role = user.role.ToString(),
                     token = _Tokenservice.GetToken(user)
                 });
             }

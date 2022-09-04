@@ -8,7 +8,8 @@ namespace Database.Models.Enums
 {
     public enum Roles
     {
-        Administrator,
-        User,
+        Admin,
+        Client,
+        User
     }
 }
