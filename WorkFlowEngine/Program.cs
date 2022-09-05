@@ -15,13 +15,15 @@ using WorkFlowEngine.Models.Services;
 #region Services
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:DefultConnection"]));
+    options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration["ConnectionStrings:DefultConnection"]));
 builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
 //builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(ITokenServices), typeof(TokenServices));

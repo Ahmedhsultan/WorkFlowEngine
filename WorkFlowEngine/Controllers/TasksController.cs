@@ -29,6 +29,9 @@ namespace WorkFlowEngine.Controllers
                 Tasks task = new Tasks()
                 {
                     taskName = "Task",
+                    //requestName = ,
+                    //assigneeUser = ,
+                    createOn = DateTime.Now,
                     outhUser = newProcesses.outhUser,
                     process = newProcesses
                 };
@@ -42,7 +45,7 @@ namespace WorkFlowEngine.Controllers
         }
 
         [HttpGet("GetAvilableTasks")]
-        public async Task<ActionResult<IEnumerable<Tasks>>> GetAvilableTasks(string userName)
+        public async Task<ActionResult<IEnumerable<Tasks>>> GetAvilableTasks([FromHeader]string userName)
         {
             if (await _iUnitOfWork.userRepository.ExistUserName(userName))
             {
@@ -70,6 +73,9 @@ namespace WorkFlowEngine.Controllers
                 Tasks nextTask = new Tasks()
                 {
                     taskName = "Task",
+                    //requestName = ,
+                    //assigneeUser = ,
+                    createOn = DateTime.Now,
                     outhUser = nextProcesses.outhUser,
                     process = nextProcesses
                 };

@@ -12,8 +12,12 @@ namespace Database.Models
         [Key]
         public Guid taskId { get; set; }
         public string taskName { get; set; }
+        public string requestName { get; set; }
+        public DateTime createOn { get; set; }
         public Guid processId { get; set; }
-        public Processes process { get; set; }
-        public ICollection<User> outhUser { get; set; }
+        public virtual Processes process { get; set; }
+
+        //public User assigneeUser { get; set; }
+        public virtual ICollection<User> outhUser { get; set; }
     }
 }

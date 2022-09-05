@@ -20,7 +20,7 @@ namespace WorkFlowEngine.Controllers
 
 
         [HttpGet("GetAvilableRequests")]
-        public async Task<ActionResult<IEnumerable<Requests>>> GetAvilableRequests(string userName)
+        public async Task<ActionResult<IEnumerable<Requests>>> GetAvilableRequests([FromHeader]string userName)
         {
             if (await _iUnitOfWork.userRepository.ExistUserName(userName))
             {

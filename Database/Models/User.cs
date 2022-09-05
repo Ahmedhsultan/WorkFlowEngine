@@ -21,9 +21,9 @@ namespace Database.Models
         public Roles role { get; set; }
         public DateTime createdOn { get; set; }
         public Gender gender { get; set; }
-        public ICollection<Digrams> digrams { get; set; }
-        public ICollection<Requests> requests { get; set; }
-        public ICollection<Tasks> tasks { get; set; }
-        public ICollection<Processes> processes { get; set; }
+        public virtual ICollection<Digrams> digrams { get; set; }
+        public virtual ICollection<Requests> requests { get; set; }
+        public virtual ICollection<Tasks> tasks { get; set; }
+        public virtual ICollection<Processes> processes { get; set; }
     }
 }

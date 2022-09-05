@@ -13,7 +13,7 @@ namespace Database.Models
         [Key]
         public Guid requsetId { get; set; }
         public Guid startProcessesId { get; set; }
-        public List<User> user { get; set; }
-        public Processes startProcesses { get; set; }
+        public virtual List<User> user { get; set; }
+        public virtual Processes startProcesses { get; set; }
     }
 }
