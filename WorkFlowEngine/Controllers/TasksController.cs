@@ -29,7 +29,7 @@ namespace WorkFlowEngine.Controllers
                 Tasks task = new Tasks()
                 {
                     taskName = "Task",
-                    //requestName = ,
+                    requestName = newProcesses.digram.digramName,
                     //assigneeUser = ,
                     createOn = DateTime.Now,
                     outhUser = newProcesses.outhUser,
@@ -73,7 +73,7 @@ namespace WorkFlowEngine.Controllers
                 Tasks nextTask = new Tasks()
                 {
                     taskName = "Task",
-                    //requestName = ,
+                    requestName = nextProcesses.digram.digramName,
                     //assigneeUser = ,
                     createOn = DateTime.Now,
                     outhUser = nextProcesses.outhUser,
