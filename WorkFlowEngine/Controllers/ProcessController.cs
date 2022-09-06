@@ -49,7 +49,6 @@ namespace WorkFlowEngine.Controllers
 
                 await _iUnitOfWork.Complete();
                 await _iUnitOfWork.digramsRepository.addNewDigram(digram);
-                await _iUnitOfWork.Complete();
 
                 //Add to process table
                 foreach (var process in digramDTO.ProcessList)

@@ -19,31 +19,7 @@ namespace WorkFlowEngine.Controllers
         }
         #endregion
 
-        [HttpPost("CreateTasks")]
-        public async Task<ActionResult<bool>> CreateTasks(ClientCreateTaskDTO clientCreateTaskDTO)
-        {
-            if (await _iUnitOfWork.userRepository.ExistUserName(clientCreateTaskDTO.userName))
-            {
-                Processes breviousProcesses = await _iUnitOfWork.processRepository.GetById(new Guid(clientCreateTaskDTO.PreviusProcessGUID));
-                Processes newProcesses = await _iUnitOfWork.processRepository.GetById(breviousProcesses.nextProcessIdNo1);
-                Tasks task = new Tasks()
-                {
-                    taskName = "Task",
-                    //requestName = newProcesses.digram.digramName,
-                    //assigneeUser = ,
-                    createOn = DateTime.Now,
-                    outhUser = newProcesses.outhUser,
-                    process = newProcesses
-                };
-                //Save all changes
-                await _iUnitOfWork.tasksRepository.addNewTask(task);
-                await _iUnitOfWork.Complete();
-
-                return Ok();
-            }
-            return BadRequest("Invalid UserName");
-        }
-
+        
         [HttpGet("GetAvilableTasks")]
         public async Task<ActionResult<IEnumerable<Tasks>>> GetAvilableTasks([FromHeader]string userName)
         {
@@ -73,8 +49,6 @@ namespace WorkFlowEngine.Controllers
                 Tasks nextTask = new Tasks()
                 {
                     taskName = "Task",
-                    //requestName = nextProcesses.digram.digramName,
-                    //assigneeUser = ,
                     createOn = DateTime.Now,
                     outhUser = nextProcesses.outhUser,
                     process = nextProcesses

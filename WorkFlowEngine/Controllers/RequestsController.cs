@@ -2,6 +2,7 @@
 using Database.Models;
 using Database.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using WorkFlowEngine.Models.DTOs.Tasks;
 #endregion
 
 namespace WorkFlowEngine.Controllers
@@ -32,6 +33,37 @@ namespace WorkFlowEngine.Controllers
                     return Ok(requests);
                 }
                 return BadRequest("Invalid Requests");
+            }
+            return BadRequest("Invalid UserName");
+        }
+
+        [HttpPost("StartRequest")]
+        public async Task<ActionResult<bool>> StartRequest(ClientCreateTaskDTO clientCreateTaskDTO)
+        {
+            if (await _iUnitOfWork.userRepository.ExistUserName(clientCreateTaskDTO.userName))
+            {
+                User user = await _iUnitOfWork.userRepository.GetByUserName(clientCreateTaskDTO.userName);
+                Processes breviousProcesses = await _iUnitOfWork.processRepository.GetById(new Guid(clientCreateTaskDTO.PreviusProcessGUID));
+                Processes newProcesses = await _iUnitOfWork.processRepository.GetById(breviousProcesses.nextProcessIdNo1);
+                Tasks task = new Tasks()
+                {
+                    taskName = "Task",
+                    createOn = DateTime.Now,
+                    outhUser = newProcesses.outhUser,
+                    runningRequests = new RunningRequests()
+                    {
+                        requestName = newProcesses.digram.digramName,
+                        assigneeUser = user,
+                        createOn = DateTime.Now,
+                        status = Database.Models.Enums.Status.Active,
+                    },
+                    process = newProcesses
+                };
+                //Save all changes
+                await _iUnitOfWork.tasksRepository.addNewTask(task);
+                await _iUnitOfWork.Complete();
+
+                return Ok();
             }
             return BadRequest("Invalid UserName");
         }

@@ -14,6 +14,7 @@ namespace Database.Models
         public Guid runningRequeststId { get; set; }
         public string requestName { get; set; }
         public Status status { get; set; }
+        public DateTime createOn { get; set; }
         public virtual User assigneeUser { get; set; }
         public Guid taskId { get; set; }
         public virtual Tasks task { get; set; }

@@ -15,8 +15,8 @@ namespace Database.Models
         public Guid nextProcessIdNo2 { get; set; }
         public Guid digramId { get; set; }
         public virtual Digrams digram { get; set; }
-        public virtual Requests request { get; set; }
-        public virtual Tasks task { get; set; }
+        public virtual ICollection<Requests> request { get; set; }
+        public virtual ICollection<Tasks> task { get; set; }
         public virtual ICollection<User> outhUser { get; set; }
     }
 }
