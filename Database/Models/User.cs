@@ -25,5 +25,6 @@ namespace Database.Models
         public virtual ICollection<Requests> requests { get; set; }
         public virtual ICollection<Tasks> tasks { get; set; }
         public virtual ICollection<Processes> processes { get; set; }
+        public virtual ICollection<RunningRequests> runningRequests { get; set; }
     }
 }

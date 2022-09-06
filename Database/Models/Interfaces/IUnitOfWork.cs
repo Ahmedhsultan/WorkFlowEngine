@@ -6,6 +6,7 @@
         public IDigramsRepository digramsRepository { get; }
         public IProcessRepository processRepository { get; }
         public IRequestsRepository requestsRepository { get; }
+        public IRunningRequestsRepository runningRequestsRepository { get; }
         public ITasksRepository tasksRepository { get; }
 
 

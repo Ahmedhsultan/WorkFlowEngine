@@ -35,5 +35,22 @@ namespace WorkFlowEngine.Controllers
             }
             return BadRequest("Invalid UserName");
         }
+
+        [HttpGet("GetAvilableRunningRequests")]
+        public async Task<ActionResult<IEnumerable<RunningRequests>>> GetAvilableRunningRequests([FromHeader] string userName)
+        {
+            if (await _iUnitOfWork.userRepository.ExistUserName(userName))
+            {
+                User user = await _iUnitOfWork.userRepository.GetByUserName(userName);
+                if (await _iUnitOfWork.runningRequestsRepository.IsExistRunningRequests(user))
+                {
+                    IEnumerable<RunningRequests> runningRequests = await _iUnitOfWork.runningRequestsRepository.GetByUser(user);
+
+                    return Ok(runningRequests);
+                }
+                return BadRequest("Invalid RunningRequests");
+            }
+            return BadRequest("Invalid UserName");
+        }
     }
 }

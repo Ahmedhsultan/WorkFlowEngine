@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220904140340_1")]
-    partial class _1
+    [Migration("20220905234720_tables")]
+    partial class tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,11 +90,43 @@ namespace Database.Migrations
                     b.ToTable("requests");
                 });
 
+            modelBuilder.Entity("Database.Models.RunningRequests", b =>
+                {
+                    b.Property<Guid>("runningRequeststId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("assigneeUseruserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("requestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("taskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("runningRequeststId");
+
+                    b.HasIndex("assigneeUseruserId");
+
+                    b.HasIndex("taskId")
+                        .IsUnique();
+
+                    b.ToTable("runningRequests");
+                });
+
             modelBuilder.Entity("Database.Models.Tasks", b =>
                 {
                     b.Property<Guid>("taskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("createOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("processId")
                         .HasColumnType("uniqueidentifier");
@@ -237,6 +269,25 @@ namespace Database.Migrations
                     b.Navigation("startProcesses");
                 });
 
+            modelBuilder.Entity("Database.Models.RunningRequests", b =>
+                {
+                    b.HasOne("Database.Models.User", "assigneeUser")
+                        .WithMany("runningRequests")
+                        .HasForeignKey("assigneeUseruserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.Tasks", "task")
+                        .WithOne("runningRequests")
+                        .HasForeignKey("Database.Models.RunningRequests", "taskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("assigneeUser");
+
+                    b.Navigation("task");
+                });
+
             modelBuilder.Entity("Database.Models.Tasks", b =>
                 {
                     b.HasOne("Database.Models.Processes", "process")
@@ -320,6 +371,17 @@ namespace Database.Migrations
 
                     b.Navigation("task")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Database.Models.Tasks", b =>
+                {
+                    b.Navigation("runningRequests")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Database.Models.User", b =>
+                {
+                    b.Navigation("runningRequests");
                 });
 #pragma warning restore 612, 618
         }

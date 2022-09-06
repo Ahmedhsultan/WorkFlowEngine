@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class _1 : Migration
+    public partial class tables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -137,6 +137,7 @@ namespace Database.Migrations
                 {
                     taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     taskName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     processId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -169,6 +170,33 @@ namespace Database.Migrations
                     table.ForeignKey(
                         name: "FK_RequestsUser_user_userId",
                         column: x => x.userId,
+                        principalTable: "user",
+                        principalColumn: "userId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "runningRequests",
+                columns: table => new
+                {
+                    runningRequeststId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    requestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false),
+                    assigneeUseruserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_runningRequests", x => x.runningRequeststId);
+                    table.ForeignKey(
+                        name: "FK_runningRequests_tasks_taskId",
+                        column: x => x.taskId,
+                        principalTable: "tasks",
+                        principalColumn: "taskId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_runningRequests_user_assigneeUseruserId",
+                        column: x => x.assigneeUseruserId,
                         principalTable: "user",
                         principalColumn: "userId",
                         onDelete: ReferentialAction.Cascade);
@@ -225,6 +253,17 @@ namespace Database.Migrations
                 column: "userId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_runningRequests_assigneeUseruserId",
+                table: "runningRequests",
+                column: "assigneeUseruserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_runningRequests_taskId",
+                table: "runningRequests",
+                column: "taskId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tasks_processId",
                 table: "tasks",
                 column: "processId",
@@ -246,6 +285,9 @@ namespace Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "RequestsUser");
+
+            migrationBuilder.DropTable(
+                name: "runningRequests");
 
             migrationBuilder.DropTable(
                 name: "TasksUser");

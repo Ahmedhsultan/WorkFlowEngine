@@ -14,6 +14,7 @@ namespace Database
         public DbSet<Digrams> digrams { get; set; }
         public DbSet<Processes> processes { get; set; }
         public DbSet<Requests> requests { get; set; }
+        public DbSet<RunningRequests> runningRequests { get; set; }
         public DbSet<Tasks> tasks { get; set; }
     }
 }
