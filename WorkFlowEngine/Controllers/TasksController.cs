@@ -37,25 +37,34 @@ namespace WorkFlowEngine.Controllers
             return BadRequest("Invalid UserName");
         }
 
-        [HttpPost("SubmitTasks")]
-        public async Task<ActionResult<IEnumerable<Tasks>>> SubmitTasks(ClientSubmitTaskDTO clientSubmitTaskDTO)
+        [HttpPost("SubmitTask")]
+        public async Task<ActionResult<IEnumerable<Tasks>>> SubmitTask(ClientSubmitTaskDTO clientSubmitTaskDTO)
         {
             if (await _iUnitOfWork.tasksRepository.IsExistTask(new Guid(clientSubmitTaskDTO.taskGUID)))
             {
                 Tasks task = await _iUnitOfWork.tasksRepository.GetById(new Guid(clientSubmitTaskDTO.taskGUID));
                 Processes processes = await _iUnitOfWork.processRepository.GetById(task.processId);
-                Processes nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
-                
-                Tasks nextTask = new Tasks()
+                if (processes.nextProcessIdNo1 != Guid.Empty)
                 {
-                    taskName = "Task",
-                    createOn = DateTime.Now,
-                    outhUser = nextProcesses.outhUser,
-                    process = nextProcesses
-                };
+                    Processes nextProcesses;
+                    if(clientSubmitTaskDTO.response)
+                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                    else
+                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+
+                    
+                    Tasks nextTask = new Tasks()
+                    {
+                        taskName = "Task",
+                        createOn = DateTime.Now,
+                        outhUser = nextProcesses.outhUser,
+                        process = nextProcesses
+                    };
+
+                    await _iUnitOfWork.tasksRepository.addNewTask(nextTask);
+                }
 
                 _iUnitOfWork.tasksRepository.RemoveTask(task);
-                await _iUnitOfWork.tasksRepository.addNewTask(nextTask);
                 //Save all changes
                 await _iUnitOfWork.Complete();
 

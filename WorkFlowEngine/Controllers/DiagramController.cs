@@ -3,6 +3,7 @@ using Database.Models;
 using Database.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WorkFlowEngine.Models.DTOs.ProccesDigram;
+using WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList;
 #endregion
 
 namespace WorkFlowEngine.Controllers
@@ -51,10 +52,10 @@ namespace WorkFlowEngine.Controllers
 
                 await _iUnitOfWork.Complete();
                 await _iUnitOfWork.digramsRepository.addNewDigram(digram);
-                await _iUnitOfWork.Complete();//delete
 
                 //Add to process table
-                foreach (var process in digramDTO.ProcessList)
+                GetProccesListFromDiagram getProccesListFromDiagram = new GetProccesListFromDiagram(digramDTO.diagramJson);
+                foreach (var process in getProccesListFromDiagram.Nodelist)
                 {
                     List<User> outhUserList = new List<User>();
                     foreach (string outhUserName in process.outhUser)
@@ -64,12 +65,13 @@ namespace WorkFlowEngine.Controllers
 
                     await _iUnitOfWork.processRepository.addNewProcess(new Processes()
                     {
-                        processId = new Guid(process.processId),
+                        processId = process.processId,
                         digram = digram,
-                        formId = new Guid(process.formId),
+                        formId = process.formId,
+                        Message = process.Message,
                         outhUser = outhUserList,
-                        nextProcessIdNo1 = new Guid(process.nextProcessIdNo1),
-                        nextProcessIdNo2 = new Guid(process.nextProcessIdNo2),
+                        nextProcessIdNo1 = process.nextProcessIdNo1,
+                        nextProcessIdNo2 = process.nextProcessIdNo2,
                     });
                 }
                 await _iUnitOfWork.Complete();
@@ -78,7 +80,7 @@ namespace WorkFlowEngine.Controllers
                 await _iUnitOfWork.requestsRepository.addNewRequest(new Requests()
                 {
                     //check no2
-                    startProcesses = await _iUnitOfWork.processRepository.GetById(new Guid(digramDTO.ProcessList[0].processId)),
+                    startProcesses = await _iUnitOfWork.processRepository.GetById(getProccesListFromDiagram.startNodeGuid),
                     user = adminDigramUsers
                 });
 

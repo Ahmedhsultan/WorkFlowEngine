@@ -11,9 +11,5 @@ namespace WorkFlowEngine.Models.DTOs.ProccesDigram
         public string digramName { get; set; }
         [Required]
         public string diagramJson { get; set; }
-        /*public List<string> adminUserName { get; set; }
-        public List<string> initiateUserName { get; set; }*/
-        [Required]
-        public List<ProcessDTO> ProcessList { get; set; }
     }
 }
