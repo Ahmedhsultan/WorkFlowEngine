@@ -6,10 +6,13 @@ namespace WorkFlowEngine.Controllers
     [Route("api/GenerateGUID")]
     public class GenerateGUIDController : Controller
     {
-        [HttpGet]
-        public ActionResult<string> GenerateGUID()
+        [HttpGet("{listOfGUIDLength:int}")]
+        public ActionResult<List<string>> GenerateGUID(int listOfGUIDLength)
         {
-            return Guid.NewGuid().ToString();
+            List<string> guids = new List<string>();
+            for (int i = 0; i < listOfGUIDLength; i++)
+                guids.Add(Guid.NewGuid().ToString());
+            return guids;
         }
     }
 }

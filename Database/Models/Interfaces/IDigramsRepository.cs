@@ -13,6 +13,6 @@ namespace Database.Models.Interfaces
         Task<bool> IsExistDigram(Guid digramId);
         Task<bool> RemoveDigrame(Guid digramId);
         Task<bool> IsExistDigram(User user);
-        Task<Digrams> GetByUser(User user);
+        Task<IEnumerable<Digrams>> GetByUser(User user);
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220906040340_2")]
-    partial class _2
+    [Migration("20220913075806_table")]
+    partial class table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,13 @@ namespace Database.Migrations
                     b.Property<Guid>("digramId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("createdOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("digramJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("digramName")
                         .IsRequired()
@@ -48,9 +55,6 @@ namespace Database.Migrations
                     b.Property<Guid>("digramId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("end")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("formId")
                         .HasColumnType("uniqueidentifier");
 
@@ -59,12 +63,6 @@ namespace Database.Migrations
 
                     b.Property<Guid>("nextProcessIdNo2")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("scriptId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("start")
-                        .HasColumnType("bit");
 
                     b.HasKey("processId");
 
@@ -97,6 +95,9 @@ namespace Database.Migrations
 
                     b.Property<Guid>("assigneeUseruserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("createOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("requestName")
                         .IsRequired()

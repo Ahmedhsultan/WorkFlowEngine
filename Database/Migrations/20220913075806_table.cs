@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class tables : Migration
+    public partial class table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,9 @@ namespace Database.Migrations
                 columns: table => new
                 {
                     digramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    digramName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    digramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    digramJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createdOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,9 +49,6 @@ namespace Database.Migrations
                 {
                     processId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     formId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    scriptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    start = table.Column<bool>(type: "bit", nullable: false),
-                    end = table.Column<bool>(type: "bit", nullable: false),
                     nextProcessIdNo1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nextProcessIdNo2 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     digramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -182,6 +181,7 @@ namespace Database.Migrations
                     runningRequeststId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     requestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     status = table.Column<int>(type: "int", nullable: false),
+                    createOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     assigneeUseruserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -244,8 +244,7 @@ namespace Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_requests_startProcessesId",
                 table: "requests",
-                column: "startProcessesId",
-                unique: true);
+                column: "startProcessesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RequestsUser_userId",
@@ -266,8 +265,7 @@ namespace Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_tasks_processId",
                 table: "tasks",
-                column: "processId",
-                unique: true);
+                column: "processId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TasksUser_taskstaskId",

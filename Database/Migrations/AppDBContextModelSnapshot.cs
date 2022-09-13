@@ -28,6 +28,13 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("createdOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("digramJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("digramName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -46,9 +53,6 @@ namespace Database.Migrations
                     b.Property<Guid>("digramId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("end")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("formId")
                         .HasColumnType("uniqueidentifier");
 
@@ -57,12 +61,6 @@ namespace Database.Migrations
 
                     b.Property<Guid>("nextProcessIdNo2")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("scriptId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("start")
-                        .HasColumnType("bit");
 
                     b.HasKey("processId");
 
@@ -95,6 +93,9 @@ namespace Database.Migrations
 
                     b.Property<Guid>("assigneeUseruserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("createOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("requestName")
                         .IsRequired()

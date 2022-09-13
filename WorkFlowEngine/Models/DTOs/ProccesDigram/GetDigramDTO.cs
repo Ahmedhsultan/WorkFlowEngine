@@ -3,6 +3,6 @@
     public class GetDigramDTO
     {
         public string userName { get; set; }
-        public string digramName { get; set; }
+        public string digramGUID { get; set; }
     }
 }

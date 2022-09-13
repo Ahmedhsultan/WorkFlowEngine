@@ -13,6 +13,8 @@ namespace Database.Models
         [Key]
         public Guid digramId { get; set; }
         public string digramName { get; set; }
+        public string digramJson { get; set; }
+        public DateTime createdOn { get; set; } = DateTime.Now;
         public virtual ICollection<User> adminUsers { get; set; }
         public virtual ICollection<Processes> processes { get; set; }
     }
