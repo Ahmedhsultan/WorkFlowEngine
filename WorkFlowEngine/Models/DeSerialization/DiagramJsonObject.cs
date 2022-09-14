@@ -3,74 +3,8 @@
     [Serializable]
     public class DiagramJsonObject
     {
-        public bool enableRtl { get; set; }
-        public string locale { get; set; }
-        public Animationcomplete animationComplete { get; set; }
-        public Click click { get; set; }
-        public Collectionchange collectionChange { get; set; }
-        public Commandexecute commandExecute { get; set; }
-        public Connectionchange connectionChange { get; set; }
-        public Contextmenubeforeitemrender contextMenuBeforeItemRender { get; set; }
-        public Contextmenuclick contextMenuClick { get; set; }
-        public Contextmenuopen contextMenuOpen { get; set; }
-        public Created created { get; set; }
-        public Dataloaded dataLoaded { get; set; }
-        public Doubleclick doubleClick { get; set; }
-        public Dragenter dragEnter { get; set; }
-        public Dragleave dragLeave { get; set; }
-        public Dragover dragOver { get; set; }
-        public Drop drop { get; set; }
-        public Expandstatechange expandStateChange { get; set; }
-        public Fixeduserhandleclick fixedUserHandleClick { get; set; }
-        public Historychange historyChange { get; set; }
-        public Historystatechange historyStateChange { get; set; }
-        public Keydown keyDown { get; set; }
-        public Keyup keyUp { get; set; }
-        public Mouseenter mouseEnter { get; set; }
-        public Mouseleave mouseLeave { get; set; }
-        public Mouseover mouseOver { get; set; }
-        public Onimageload onImageLoad { get; set; }
-        public Onuserhandlemousedown onUserHandleMouseDown { get; set; }
-        public Onuserhandlemouseenter onUserHandleMouseEnter { get; set; }
-        public Onuserhandlemouseleave onUserHandleMouseLeave { get; set; }
-        public Onuserhandlemouseup onUserHandleMouseUp { get; set; }
-        public Positionchange positionChange { get; set; }
-        public Propertychange propertyChange { get; set; }
-        public Rotatechange rotateChange { get; set; }
-        public Scrollchange scrollChange { get; set; }
-        public Segmentcollectionchange segmentCollectionChange { get; set; }
-        public Selectionchange selectionChange { get; set; }
-        public Sizechange sizeChange { get; set; }
-        public Sourcepointchange sourcePointChange { get; set; }
-        public Targetpointchange targetPointChange { get; set; }
-        public Textedit textEdit { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
-        public Snapsettings snapSettings { get; set; }
-        public Getconnectordefaults getConnectorDefaults { get; set; }
-        public Getnodedefaults getNodeDefaults { get; set; }
-        public bool enablePersistence { get; set; }
-        public Scrollsettings scrollSettings { get; set; }
-        public Rulersettings rulerSettings { get; set; }
-        public string backgroundColor { get; set; }
-        public int constraints { get; set; }
-        public Layout layout { get; set; }
-        public Contextmenusettings contextMenuSettings { get; set; }
-        public Datasourcesettings dataSourceSettings { get; set; }
-        public string mode { get; set; }
-        public Layer[] layers { get; set; }
         public Node[] nodes { get; set; }
         public Connector[] connectors { get; set; }
-        public Pagesettings pageSettings { get; set; }
-        public Selecteditems selectedItems { get; set; }
-        public object[] basicElements { get; set; }
-        public Tooltip1 tooltip { get; set; }
-        public Commandmanager commandManager { get; set; }
-        public int tool { get; set; }
-        public object[] customCursor { get; set; }
-        public Diagramsettings diagramSettings { get; set; }
-        public bool enableConnectorSplit { get; set; }
-        public float version { get; set; }
     }
 
     public class Animationcomplete
@@ -467,7 +401,7 @@
     {
         public Horizontalgridlines horizontalGridlines { get; set; }
         public Verticalgridlines verticalGridlines { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public string gridType { get; set; }
     }
 
@@ -498,23 +432,23 @@
     public class Scrollsettings
     {
         public float viewPortWidth { get; set; }
-        public int viewPortHeight { get; set; }
-        public int currentZoom { get; set; }
-        public int horizontalOffset { get; set; }
-        public int verticalOffset { get; set; }
+        public string viewPortHeight { get; set; }
+        public string currentZoom { get; set; }
+        public string horizontalOffset { get; set; }
+        public string verticalOffset { get; set; }
         public Padding padding { get; set; }
         public string scrollLimit { get; set; }
         public float minZoom { get; set; }
-        public int maxZoom { get; set; }
+        public string maxZoom { get; set; }
         public bool canAutoScroll { get; set; }
     }
 
     public class Padding
     {
-        public int left { get; set; }
-        public int right { get; set; }
-        public int top { get; set; }
-        public int bottom { get; set; }
+        public string left { get; set; }
+        public string right { get; set; }
+        public string top { get; set; }
+        public string bottom { get; set; }
     }
 
     public class Rulersettings
@@ -585,13 +519,13 @@
         public object[] nodes { get; set; }
         public object[] connectors { get; set; }
         public object wrapper { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public Selectedobject[] selectedObjects { get; set; }
         public object[] userHandles { get; set; }
-        public int rotateAngle { get; set; }
+        public string rotateAngle { get; set; }
         public Pivot pivot { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
         public float offsetX { get; set; }
         public float offsetY { get; set; }
     }
@@ -607,8 +541,8 @@
         public Shape shape { get; set; }
         public Port[] ports { get; set; }
         public string id { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
         public object container { get; set; }
         public float offsetX { get; set; }
         public float offsetY { get; set; }
@@ -617,18 +551,18 @@
         public string verticalAlignment { get; set; }
         public string backgroundColor { get; set; }
         public string borderColor { get; set; }
-        public int borderWidth { get; set; }
-        public int rotateAngle { get; set; }
+        public string borderWidth { get; set; }
+        public string rotateAngle { get; set; }
         public Pivot1 pivot { get; set; }
         public Margin margin { get; set; }
         public string flip { get; set; }
         public Wrapper wrapper { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public Style style { get; set; }
         public Previewsize previewSize { get; set; }
         public Dragsize dragSize { get; set; }
         public Addinfo addInfo { get; set; }
-        public int zIndex { get; set; }
+        public string zIndex { get; set; }
         public Annotation[] annotations { get; set; }
         public string flipMode { get; set; }
         public bool isExpanded { get; set; }
@@ -639,7 +573,7 @@
         public object[] outEdges { get; set; }
         public string parentId { get; set; }
         public string processId { get; set; }
-        public int umlIndex { get; set; }
+        public string umlIndex { get; set; }
         public bool isPhase { get; set; }
         public bool isLane { get; set; }
     }
@@ -669,18 +603,18 @@
 
     public class Actualsize
     {
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
     }
 
     public class Style
     {
         public string fill { get; set; }
         public Gradient gradient { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeColor { get; set; }
         public string strokeDashArray { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
     }
 
     public class Gradient
@@ -700,7 +634,6 @@
     {
         public string FormId { get; set; }
         public string OuthUser { get; set; }
-        public string Message { get; set; }
     }
 
     public class Expandicon
@@ -720,14 +653,14 @@
         public string id { get; set; }
         public string shape { get; set; }
         public Offset offset { get; set; }
-        public int height { get; set; }
-        public int width { get; set; }
+        public string height { get; set; }
+        public string width { get; set; }
         public Margin1 margin { get; set; }
         public Style1 style { get; set; }
         public string horizontalAlignment { get; set; }
         public string verticalAlignment { get; set; }
-        public int visibility { get; set; }
-        public int constraints { get; set; }
+        public string visibility { get; set; }
+        public string constraints { get; set; }
     }
 
     public class Offset
@@ -738,19 +671,19 @@
 
     public class Margin1
     {
-        public int right { get; set; }
-        public int bottom { get; set; }
-        public int left { get; set; }
-        public int top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
+        public string top { get; set; }
     }
 
     public class Style1
     {
         public string fill { get; set; }
         public string strokeColor { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public string strokeDashArray { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
     }
 
     public class Annotation
@@ -760,9 +693,9 @@
         public string content { get; set; }
         public string annotationType { get; set; }
         public Hyperlink hyperlink { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public bool visibility { get; set; }
-        public int rotateAngle { get; set; }
+        public string rotateAngle { get; set; }
         public Margin2 margin { get; set; }
         public string horizontalAlignment { get; set; }
         public string verticalAlignment { get; set; }
@@ -771,7 +704,7 @@
 
     public class Style2
     {
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeColor { get; set; }
         public string fill { get; set; }
         public string color { get; set; }
@@ -779,9 +712,9 @@
         public string textWrapping { get; set; }
         public string whiteSpace { get; set; }
         public string fontFamily { get; set; }
-        public int fontSize { get; set; }
+        public string fontSize { get; set; }
         public bool italic { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public string strokeDashArray { get; set; }
         public string textAlign { get; set; }
         public string textOverflow { get; set; }
@@ -798,10 +731,10 @@
 
     public class Margin2
     {
-        public int right { get; set; }
-        public int bottom { get; set; }
-        public int left { get; set; }
-        public int top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
+        public string top { get; set; }
     }
 
     public class Offset1
@@ -831,8 +764,8 @@
         public bool visible { get; set; }
         public bool _lock { get; set; }
         public string[] objects { get; set; }
-        public int zIndex { get; set; }
-        public int objectZIndex { get; set; }
+        public string zIndex { get; set; }
+        public string objectZIndex { get; set; }
     }
 
     public class Node
@@ -840,8 +773,8 @@
         public Shape1 shape { get; set; }
         public Port1[] ports { get; set; }
         public string id { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
         public object container { get; set; }
         public float offsetX { get; set; }
         public float offsetY { get; set; }
@@ -850,18 +783,18 @@
         public string verticalAlignment { get; set; }
         public string backgroundColor { get; set; }
         public string borderColor { get; set; }
-        public int borderWidth { get; set; }
-        public int rotateAngle { get; set; }
+        public string borderWidth { get; set; }
+        public string rotateAngle { get; set; }
         public Pivot2 pivot { get; set; }
         public Margin3 margin { get; set; }
         public string flip { get; set; }
         public Wrapper1 wrapper { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public Style3 style { get; set; }
         public Previewsize1 previewSize { get; set; }
         public Dragsize1 dragSize { get; set; }
         public Addinfo1 addInfo { get; set; }
-        public int zIndex { get; set; }
+        public string zIndex { get; set; }
         public Annotation1[] annotations { get; set; }
         public string flipMode { get; set; }
         public bool isExpanded { get; set; }
@@ -872,7 +805,7 @@
         public string[] outEdges { get; set; }
         public string parentId { get; set; }
         public string processId { get; set; }
-        public int umlIndex { get; set; }
+        public string umlIndex { get; set; }
         public bool isPhase { get; set; }
         public bool isLane { get; set; }
     }
@@ -902,18 +835,18 @@
 
     public class Actualsize1
     {
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
     }
 
     public class Style3
     {
         public string fill { get; set; }
         public Gradient1 gradient { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeColor { get; set; }
         public string strokeDashArray { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
     }
 
     public class Gradient1
@@ -953,14 +886,14 @@
         public string id { get; set; }
         public string shape { get; set; }
         public Offset2 offset { get; set; }
-        public int height { get; set; }
-        public int width { get; set; }
+        public string height { get; set; }
+        public string width { get; set; }
         public Margin4 margin { get; set; }
         public Style4 style { get; set; }
         public string horizontalAlignment { get; set; }
         public string verticalAlignment { get; set; }
-        public int visibility { get; set; }
-        public int constraints { get; set; }
+        public string visibility { get; set; }
+        public string constraints { get; set; }
     }
 
     public class Offset2
@@ -971,19 +904,19 @@
 
     public class Margin4
     {
-        public int right { get; set; }
-        public int bottom { get; set; }
-        public int left { get; set; }
-        public int top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
+        public string top { get; set; }
     }
 
     public class Style4
     {
         public string fill { get; set; }
         public string strokeColor { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public string strokeDashArray { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
     }
 
     public class Annotation1
@@ -993,9 +926,9 @@
         public string content { get; set; }
         public string annotationType { get; set; }
         public Hyperlink1 hyperlink { get; set; }
-        public int constraints { get; set; }
+        public string constraints { get; set; }
         public bool visibility { get; set; }
-        public int rotateAngle { get; set; }
+        public string rotateAngle { get; set; }
         public Margin5 margin { get; set; }
         public string horizontalAlignment { get; set; }
         public string verticalAlignment { get; set; }
@@ -1004,7 +937,7 @@
 
     public class Style5
     {
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeColor { get; set; }
         public string fill { get; set; }
         public string color { get; set; }
@@ -1012,9 +945,9 @@
         public string textWrapping { get; set; }
         public string whiteSpace { get; set; }
         public string fontFamily { get; set; }
-        public int fontSize { get; set; }
+        public string fontSize { get; set; }
         public bool italic { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public string strokeDashArray { get; set; }
         public string textAlign { get; set; }
         public string textOverflow { get; set; }
@@ -1031,10 +964,10 @@
 
     public class Margin5
     {
-        public int right { get; set; }
-        public int bottom { get; set; }
-        public int left { get; set; }
-        public int top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
+        public string top { get; set; }
     }
 
     public class Offset3
@@ -1057,21 +990,21 @@
         public string sourceID { get; set; }
         public string targetID { get; set; }
         public string flip { get; set; }
-        public int connectorSpacing { get; set; }
+        public string connectorSpacing { get; set; }
         public Segment[] segments { get; set; }
         public Sourcedecorator sourceDecorator { get; set; }
-        public int cornerRadius { get; set; }
+        public string cornerRadius { get; set; }
         public Wrapper2 wrapper { get; set; }
         public object[] annotations { get; set; }
         public object[] fixedUserHandles { get; set; }
         public Previewsize2 previewSize { get; set; }
-        public int zIndex { get; set; }
+        public string zIndex { get; set; }
         public bool visible { get; set; }
-        public int constraints { get; set; }
-        public int connectionPadding { get; set; }
-        public int hitPadding { get; set; }
-        public int sourcePadding { get; set; }
-        public int targetPadding { get; set; }
+        public string constraints { get; set; }
+        public string connectionPadding { get; set; }
+        public string hitPadding { get; set; }
+        public string sourcePadding { get; set; }
+        public string targetPadding { get; set; }
         public Tooltip3 tooltip { get; set; }
         public string parentId { get; set; }
     }
@@ -1097,8 +1030,8 @@
     {
         public string shape { get; set; }
         public Style6 style { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
         public Pivot3 pivot { get; set; }
     }
 
@@ -1106,9 +1039,9 @@
     {
         public string fill { get; set; }
         public string strokeColor { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeDashArray { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public Gradient2 gradient { get; set; }
     }
 
@@ -1119,17 +1052,17 @@
 
     public class Pivot3
     {
-        public int x { get; set; }
+        public string x { get; set; }
         public float y { get; set; }
     }
 
     public class Style7
     {
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeColor { get; set; }
         public string fill { get; set; }
         public string strokeDashArray { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public Gradient3 gradient { get; set; }
     }
 
@@ -1141,15 +1074,15 @@
     public class Sourcedecorator
     {
         public string shape { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
         public Pivot4 pivot { get; set; }
         public Style8 style { get; set; }
     }
 
     public class Pivot4
     {
-        public int x { get; set; }
+        public string x { get; set; }
         public float y { get; set; }
     }
 
@@ -1157,9 +1090,9 @@
     {
         public string fill { get; set; }
         public string strokeColor { get; set; }
-        public int strokeWidth { get; set; }
+        public string strokeWidth { get; set; }
         public string strokeDashArray { get; set; }
-        public int opacity { get; set; }
+        public string opacity { get; set; }
         public Gradient4 gradient { get; set; }
     }
 
@@ -1177,7 +1110,7 @@
 
     public class Actualsize2
     {
-        public int width { get; set; }
+        public string width { get; set; }
         public float height { get; set; }
     }
 

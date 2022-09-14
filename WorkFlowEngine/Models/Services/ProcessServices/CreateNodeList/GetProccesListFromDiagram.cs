@@ -12,15 +12,17 @@ namespace WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList
         public List<ProcessSecrviceDTO> Nodelist { get; set; }
         public GetProccesListFromDiagram(string diagramJson)
         {
-            dynamic diagramJsonObje2ct = JsonConvert.DeserializeObject(diagramJson);
+            //dynamic diagramJsonObje2ct = JsonConvert.DeserializeObject(diagramJson);
             DiagramJsonObject diagramJsonObject = JsonConvert.DeserializeObject<DiagramJsonObject>(diagramJson);
+            //DiagramJsonObject diagramJsonObject = System.Text.Json.JsonSerializer.Deserialize<DiagramJsonObject>(diagramJson);
 
 
             //Map all Node ids with new GUID
             List<GUID_Mapper> GUIDmapper = new List<GUID_Mapper>();
+            GUIDmapper.Add(new GUID_Mapper { nodeId = "00000000-0000-0000-0000-000000000000", GUID = Guid.Empty });
             foreach (var node in diagramJsonObject.nodes)
                 GUIDmapper.Add(new GUID_Mapper { nodeId = node.id , GUID = Guid.NewGuid()});
-
+            Nodelist = new List<ProcessSecrviceDTO>();
             //Index all nodes in diagram
             foreach (var node in diagramJsonObject.nodes)
             {
@@ -39,9 +41,8 @@ namespace WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList
                 Nodelist.Add(new ProcessSecrviceDTO()
                 {
                     processId = GUIDmapper.FirstOrDefault(x => x.nodeId == node.id).GUID,
-                    formId = GUIDmapper.FirstOrDefault(x => x.nodeId == node.addInfo.FormId).GUID,
-                    Message = node.addInfo.Message,
-                    outhUser = { node.addInfo.OuthUser },
+                    formId = new Guid(node.addInfo.FormId),
+                    outhUser = new List<string>() { node.addInfo.OuthUser },
                     nextProcessIdNo1 = GUIDmapper.FirstOrDefault(x => x.nodeId == targetIds[0]).GUID,
                     nextProcessIdNo2 = GUIDmapper.FirstOrDefault(x => x.nodeId == targetIds[1]).GUID,
                 });

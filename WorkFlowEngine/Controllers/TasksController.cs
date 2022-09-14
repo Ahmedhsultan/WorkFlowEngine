@@ -58,6 +58,7 @@ namespace WorkFlowEngine.Controllers
                         taskName = "Task",
                         createOn = DateTime.Now,
                         outhUser = nextProcesses.outhUser,
+                        runningRequests = task.runningRequests,
                         process = nextProcesses
                     };
 

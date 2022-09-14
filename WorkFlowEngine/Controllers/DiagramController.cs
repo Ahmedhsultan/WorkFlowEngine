@@ -68,7 +68,6 @@ namespace WorkFlowEngine.Controllers
                         processId = process.processId,
                         digram = digram,
                         formId = process.formId,
-                        Message = process.Message,
                         outhUser = outhUserList,
                         nextProcessIdNo1 = process.nextProcessIdNo1,
                         nextProcessIdNo2 = process.nextProcessIdNo2,
