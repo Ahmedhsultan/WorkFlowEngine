@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class table : Migration
+    public partial class tables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +49,7 @@ namespace Database.Migrations
                 {
                     processId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     formId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     nextProcessIdNo1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nextProcessIdNo2 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     digramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)

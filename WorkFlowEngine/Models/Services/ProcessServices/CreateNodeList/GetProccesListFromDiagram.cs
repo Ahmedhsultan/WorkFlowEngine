@@ -12,7 +12,7 @@ namespace WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList
         public List<ProcessSecrviceDTO> Nodelist { get; set; }
         public GetProccesListFromDiagram(string diagramJson)
         {
-            //dynamic diagramJsonObject = JsonConvert.DeserializeObject(diagramJson);
+            dynamic diagramJsonObje2ct = JsonConvert.DeserializeObject(diagramJson);
             DiagramJsonObject diagramJsonObject = JsonConvert.DeserializeObject<DiagramJsonObject>(diagramJson);
 
 
