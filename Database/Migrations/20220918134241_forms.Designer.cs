@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220914183131_message")]
-    partial class message
+    [Migration("20220918134241_forms")]
+    partial class forms
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,32 @@ namespace Database.Migrations
                     b.ToTable("digrams");
                 });
 
+            modelBuilder.Entity("Database.Models.Forms", b =>
+                {
+                    b.Property<Guid>("formGuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("createOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("formName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("html")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("json")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("formGuid");
+
+                    b.ToTable("forms");
+                });
+
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
                     b.Property<Guid>("processId")
@@ -67,6 +93,8 @@ namespace Database.Migrations
                     b.HasKey("processId");
 
                     b.HasIndex("digramId");
+
+                    b.HasIndex("formId");
 
                     b.ToTable("processes");
                 });
@@ -201,6 +229,21 @@ namespace Database.Migrations
                     b.ToTable("DigramsUser");
                 });
 
+            modelBuilder.Entity("FormsUser", b =>
+                {
+                    b.Property<Guid>("adminUsersuserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("formsformGuid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("adminUsersuserId", "formsformGuid");
+
+                    b.HasIndex("formsformGuid");
+
+                    b.ToTable("FormsUser");
+                });
+
             modelBuilder.Entity("ProcessesUser", b =>
                 {
                     b.Property<Guid>("outhUseruserId")
@@ -254,7 +297,15 @@ namespace Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Database.Models.Forms", "form")
+                        .WithMany("assumerProcesses")
+                        .HasForeignKey("formId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("digram");
+
+                    b.Navigation("form");
                 });
 
             modelBuilder.Entity("Database.Models.Requests", b =>
@@ -313,6 +364,21 @@ namespace Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FormsUser", b =>
+                {
+                    b.HasOne("Database.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("adminUsersuserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.Forms", null)
+                        .WithMany()
+                        .HasForeignKey("formsformGuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProcessesUser", b =>
                 {
                     b.HasOne("Database.Models.User", null)
@@ -361,6 +427,11 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.Digrams", b =>
                 {
                     b.Navigation("processes");
+                });
+
+            modelBuilder.Entity("Database.Models.Forms", b =>
+                {
+                    b.Navigation("assumerProcesses");
                 });
 
             modelBuilder.Entity("Database.Models.Processes", b =>

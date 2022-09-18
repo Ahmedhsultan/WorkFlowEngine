@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class table : Migration
+    public partial class forms : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,21 @@ namespace Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_digrams", x => x.digramId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "forms",
+                columns: table => new
+                {
+                    formGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    formName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    html = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    json = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    createOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_forms", x => x.formGuid);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,10 +63,9 @@ namespace Database.Migrations
                 columns: table => new
                 {
                     processId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    formId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     nextProcessIdNo1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     nextProcessIdNo2 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    formId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     digramId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -62,6 +76,12 @@ namespace Database.Migrations
                         column: x => x.digramId,
                         principalTable: "digrams",
                         principalColumn: "digramId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_processes_forms_formId",
+                        column: x => x.formId,
+                        principalTable: "forms",
+                        principalColumn: "formGuid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -83,6 +103,30 @@ namespace Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DigramsUser_user_adminUsersuserId",
+                        column: x => x.adminUsersuserId,
+                        principalTable: "user",
+                        principalColumn: "userId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FormsUser",
+                columns: table => new
+                {
+                    adminUsersuserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    formsformGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FormsUser", x => new { x.adminUsersuserId, x.formsformGuid });
+                    table.ForeignKey(
+                        name: "FK_FormsUser_forms_formsformGuid",
+                        column: x => x.formsformGuid,
+                        principalTable: "forms",
+                        principalColumn: "formGuid",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FormsUser_user_adminUsersuserId",
                         column: x => x.adminUsersuserId,
                         principalTable: "user",
                         principalColumn: "userId",
@@ -233,9 +277,19 @@ namespace Database.Migrations
                 column: "digramsdigramId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FormsUser_formsformGuid",
+                table: "FormsUser",
+                column: "formsformGuid");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_processes_digramId",
                 table: "processes",
                 column: "digramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_processes_formId",
+                table: "processes",
+                column: "formId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcessesUser_processesprocessId",
@@ -280,6 +334,9 @@ namespace Database.Migrations
                 name: "DigramsUser");
 
             migrationBuilder.DropTable(
+                name: "FormsUser");
+
+            migrationBuilder.DropTable(
                 name: "ProcessesUser");
 
             migrationBuilder.DropTable(
@@ -305,6 +362,9 @@ namespace Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "digrams");
+
+            migrationBuilder.DropTable(
+                name: "forms");
         }
     }
 }

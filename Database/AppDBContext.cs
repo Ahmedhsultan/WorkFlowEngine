@@ -16,5 +16,6 @@ namespace Database
         public DbSet<Requests> requests { get; set; }
         public DbSet<RunningRequests> runningRequests { get; set; }
         public DbSet<Tasks> tasks { get; set; }
+        public DbSet<Forms> forms { get; set; }
     }
 }

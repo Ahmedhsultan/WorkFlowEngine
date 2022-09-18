@@ -7,9 +7,10 @@ namespace Database.Models
     {
         [Key]
         public Guid processId { get; set; }
-        public Guid formId { get; set; }
         public Guid nextProcessIdNo1 { get; set; }
         public Guid nextProcessIdNo2 { get; set; }
+        public Guid formId { get; set; }
+        public virtual Forms form { get; set; }
         public Guid digramId { get; set; }
         public virtual Digrams digram { get; set; }
         public virtual ICollection<Requests> request { get; set; }
