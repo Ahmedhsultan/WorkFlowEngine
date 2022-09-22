@@ -40,6 +40,12 @@ namespace Database.Models.Repository
             return await _appDBContext.forms.AnyAsync(x => x.formGuid == formId);
         }
 
+        public async Task<bool> IsExistform(User user, string formName)
+        {
+            IEnumerable<Forms> userFormsList = await _appDBContext.forms.Where(x => x.adminUsers.Any(c => c == user)).ToListAsync();
+            return userFormsList.Any(x => x.formName == formName);
+        }
+
         public async Task<bool> IsExistform(User user)
         {
             return await _appDBContext.forms.AnyAsync(x => x.adminUsers.Any(c => c == user));

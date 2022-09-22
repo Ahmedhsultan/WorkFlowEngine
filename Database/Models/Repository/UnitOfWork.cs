@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Database.Models.Repository
 {
-    public class UnitOfWork :IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         public IUserRepository userRepository { get; private set; }
         public IDigramsRepository digramsRepository { get; private set; }
@@ -15,7 +15,7 @@ namespace Database.Models.Repository
         public IRequestsRepository requestsRepository { get; private set; }
         public IRunningRequestsRepository runningRequestsRepository { get; private set; }
         public ITasksRepository tasksRepository { get; private set; }
-
+        public IFormRepository formRepository { get; private set; }
 
         private readonly AppDBContext _appDBContext;
 
@@ -29,6 +29,7 @@ namespace Database.Models.Repository
             requestsRepository = new RequestsRepository(_appDBContext);
             runningRequestsRepository = new RunningRequestsRepository(_appDBContext);
             tasksRepository = new TasksRepository(_appDBContext);
+            formRepository = new FormRepository(_appDBContext);
         }
 
 

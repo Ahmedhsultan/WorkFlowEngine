@@ -8,6 +8,7 @@
         public IRequestsRepository requestsRepository { get; }
         public IRunningRequestsRepository runningRequestsRepository { get; }
         public ITasksRepository tasksRepository { get; }
+        public IFormRepository formRepository { get; }
 
 
         Task<int> Complete();

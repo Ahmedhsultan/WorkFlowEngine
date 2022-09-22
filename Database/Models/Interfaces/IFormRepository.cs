@@ -12,6 +12,7 @@ namespace Database.Models.Interfaces
         Task<bool> addNewForm(Forms form);
         Task<bool> IsExistform(Guid formId);
         Task<bool> Removeform(Guid formId);
+        Task<bool> IsExistform(User user,string formName);
         Task<bool> IsExistform(User user);
         Task<IEnumerable<Forms>> GetByUser(User user);
     }
