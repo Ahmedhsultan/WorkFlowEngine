@@ -16,6 +16,7 @@ namespace Database.Models.Repository
         public IRunningRequestsRepository runningRequestsRepository { get; private set; }
         public ITasksRepository tasksRepository { get; private set; }
         public IFormRepository formRepository { get; private set; }
+        public IFormVariableRepository formVariableRepository { get; private set; }
 
         private readonly AppDBContext _appDBContext;
 
@@ -30,6 +31,7 @@ namespace Database.Models.Repository
             runningRequestsRepository = new RunningRequestsRepository(_appDBContext);
             tasksRepository = new TasksRepository(_appDBContext);
             formRepository = new FormRepository(_appDBContext);
+            formVariableRepository = new FormVariableRepository(_appDBContext);
         }
 
 

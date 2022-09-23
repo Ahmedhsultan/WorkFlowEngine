@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220918134241_forms")]
-    partial class forms
+    [Migration("20220923213029_tables")]
+    partial class tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,6 +70,30 @@ namespace Database.Migrations
                     b.HasKey("formGuid");
 
                     b.ToTable("forms");
+                });
+
+            modelBuilder.Entity("Database.Models.FormVariable", b =>
+                {
+                    b.Property<Guid>("FormVariablesGUID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("taskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FormVariablesGUID");
+
+                    b.HasIndex("taskId");
+
+                    b.ToTable("formVariable");
                 });
 
             modelBuilder.Entity("Database.Models.Processes", b =>
@@ -289,6 +313,17 @@ namespace Database.Migrations
                     b.ToTable("TasksUser");
                 });
 
+            modelBuilder.Entity("Database.Models.FormVariable", b =>
+                {
+                    b.HasOne("Database.Models.Tasks", "task")
+                        .WithMany("formVariable")
+                        .HasForeignKey("taskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("task");
+                });
+
             modelBuilder.Entity("Database.Models.Processes", b =>
                 {
                     b.HasOne("Database.Models.Digrams", "digram")
@@ -443,6 +478,8 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Tasks", b =>
                 {
+                    b.Navigation("formVariable");
+
                     b.Navigation("runningRequests")
                         .IsRequired();
                 });

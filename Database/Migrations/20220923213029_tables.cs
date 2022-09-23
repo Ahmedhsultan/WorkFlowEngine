@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Database.Migrations
 {
-    public partial class forms : Migration
+    public partial class tables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -220,6 +220,26 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "formVariable",
+                columns: table => new
+                {
+                    FormVariablesGUID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    taskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_formVariable", x => x.FormVariablesGUID);
+                    table.ForeignKey(
+                        name: "FK_formVariable_tasks_taskId",
+                        column: x => x.taskId,
+                        principalTable: "tasks",
+                        principalColumn: "taskId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "runningRequests",
                 columns: table => new
                 {
@@ -282,6 +302,11 @@ namespace Database.Migrations
                 column: "formsformGuid");
 
             migrationBuilder.CreateIndex(
+                name: "IX_formVariable_taskId",
+                table: "formVariable",
+                column: "taskId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_processes_digramId",
                 table: "processes",
                 column: "digramId");
@@ -335,6 +360,9 @@ namespace Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "FormsUser");
+
+            migrationBuilder.DropTable(
+                name: "formVariable");
 
             migrationBuilder.DropTable(
                 name: "ProcessesUser");

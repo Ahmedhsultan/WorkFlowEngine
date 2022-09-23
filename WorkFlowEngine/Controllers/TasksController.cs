@@ -2,6 +2,7 @@
 using Database.Models;
 using Database.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.ObjectModel;
 using WorkFlowEngine.Models.DTOs.Tasks;
 #endregion
 
@@ -46,12 +47,21 @@ namespace WorkFlowEngine.Controllers
                 Processes processes = await _iUnitOfWork.processRepository.GetById(task.processId);
                 if (processes.nextProcessIdNo1 != Guid.Empty)
                 {
-                    Processes nextProcesses;
-                    if(clientSubmitTaskDTO.response)
+                    Processes nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                    /*if(clientSubmitTaskDTO.response)
                         nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
                     else
-                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);*/
 
+                    ICollection<FormVariable> formVariables = new Collection<FormVariable>();
+                    foreach (var variable in clientSubmitTaskDTO.varList)
+                    {
+                        formVariables.Add(new FormVariable()
+                        {
+                            Key = variable.key,
+                            value = variable.value
+                        });
+                    }
                     
                     Tasks nextTask = new Tasks()
                     {
@@ -59,7 +69,8 @@ namespace WorkFlowEngine.Controllers
                         createOn = DateTime.Now,
                         outhUser = nextProcesses.outhUser,
                         runningRequests = task.runningRequests,
-                        process = nextProcesses
+                        process = nextProcesses,
+                        formVariable = formVariables
                     };
 
                     await _iUnitOfWork.tasksRepository.addNewTask(nextTask);

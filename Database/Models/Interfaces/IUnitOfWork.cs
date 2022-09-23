@@ -9,6 +9,7 @@
         public IRunningRequestsRepository runningRequestsRepository { get; }
         public ITasksRepository tasksRepository { get; }
         public IFormRepository formRepository { get; }
+        public IFormVariableRepository formVariableRepository { get; }
 
 
         Task<int> Complete();
