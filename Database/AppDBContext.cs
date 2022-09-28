@@ -18,5 +18,6 @@ namespace Database
         public DbSet<Tasks> tasks { get; set; }
         public DbSet<Forms> forms { get; set; }
         public DbSet<FormVariable> formVariable { get; set; }
+        public DbSet<TempStorage> tempStorage { get; set; }
     }
 }

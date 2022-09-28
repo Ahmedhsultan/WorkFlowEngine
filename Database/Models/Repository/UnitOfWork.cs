@@ -17,6 +17,7 @@ namespace Database.Models.Repository
         public ITasksRepository tasksRepository { get; private set; }
         public IFormRepository formRepository { get; private set; }
         public IFormVariableRepository formVariableRepository { get; private set; }
+        public ITempStorageRepository tempStorageRepository { get; private set; }
 
         private readonly AppDBContext _appDBContext;
 
@@ -32,6 +33,7 @@ namespace Database.Models.Repository
             tasksRepository = new TasksRepository(_appDBContext);
             formRepository = new FormRepository(_appDBContext);
             formVariableRepository = new FormVariableRepository(_appDBContext);
+            tempStorageRepository = new TempStorageRepository(_appDBContext);
         }
 
 

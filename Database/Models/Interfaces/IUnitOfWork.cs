@@ -10,6 +10,7 @@
         public ITasksRepository tasksRepository { get; }
         public IFormRepository formRepository { get; }
         public IFormVariableRepository formVariableRepository { get; }
+        public ITempStorageRepository tempStorageRepository { get; }
 
 
         Task<int> Complete();
