@@ -69,6 +69,8 @@ namespace WorkFlowEngine.Controllers
                         digram = digram,
                         formId = process.formId,
                         outhUser = outhUserList,
+                        GitwayVarKey = process.GitwayVarKey,
+                        GitwayVarValu = process.GitwayVarValu,
                         nextProcessIdNo1 = process.nextProcessIdNo1,
                         nextProcessIdNo2 = process.nextProcessIdNo2,
                     });

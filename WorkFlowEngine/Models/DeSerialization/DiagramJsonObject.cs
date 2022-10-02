@@ -866,7 +866,8 @@
     {
         public string FormId { get; set; }
         public string OuthUser { get; set; }
-        public string Message { get; set; }
+        public string GitwayVarKey { get; set; }
+        public string GitwayVarValu { get; set; }
     }
 
     public class Expandicon1

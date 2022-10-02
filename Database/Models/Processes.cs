@@ -9,6 +9,8 @@ namespace Database.Models
         public Guid processId { get; set; }
         public Guid nextProcessIdNo1 { get; set; }
         public Guid nextProcessIdNo2 { get; set; }
+        public string GitwayVarKey { get; set; }
+        public string GitwayVarValu { get; set; }
         public Guid formId { get; set; }
         public virtual Forms form { get; set; }
         public Guid digramId { get; set; }
