@@ -48,20 +48,22 @@ namespace WorkFlowEngine.Controllers
                 if (processes.nextProcessIdNo1 != Guid.Empty)
                 {
                     Processes nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                    if (processes.nextProcessIdNo2 != Guid.Empty)
+                    {
+                        Processes nextProcessIdNo1 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                        if (nextProcessIdNo1.GitwayVarKey != "")
+                            foreach (var var in clientSubmitTaskDTO.varList)
+                                if (var.key == nextProcessIdNo1.GitwayVarKey)
+                                    if (var.value == nextProcessIdNo1.GitwayVarValu)
+                                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
 
-                    Processes nextProcessIdNo1 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
-                    if (nextProcessIdNo1.GitwayVarKey != "")
-                        foreach (var var in clientSubmitTaskDTO.varList)
-                            if (var.key == nextProcessIdNo1.GitwayVarKey)
-                                if (var.value == nextProcessIdNo1.GitwayVarValu)
-                                    nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
-
-                    Processes nextProcessIdNo2 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
-                    if (nextProcessIdNo2.GitwayVarKey != "")
-                        foreach (var var in clientSubmitTaskDTO.varList)
-                            if (var.key == nextProcessIdNo2.GitwayVarKey)
-                                if (var.value == nextProcessIdNo2.GitwayVarValu)
-                                    nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                        Processes nextProcessIdNo2 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                        if (nextProcessIdNo2.GitwayVarKey != "")
+                            foreach (var var in clientSubmitTaskDTO.varList)
+                                if (var.key == nextProcessIdNo2.GitwayVarKey)
+                                    if (var.value == nextProcessIdNo2.GitwayVarValu)
+                                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                    }
 
                     ICollection<FormVariable> formVariables = new Collection<FormVariable>();
                     foreach (var variable in clientSubmitTaskDTO.varList)
