@@ -1,5 +1,6 @@
 ﻿#region Library
 using Database.Models;
+using Database.Models.Enums;
 using Database.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.ObjectModel;
@@ -45,50 +46,73 @@ namespace WorkFlowEngine.Controllers
             {
                 Tasks task = await _iUnitOfWork.tasksRepository.GetById(new Guid(clientSubmitTaskDTO.taskGUID));
                 Processes processes = await _iUnitOfWork.processRepository.GetById(task.processId);
-                if (processes.nextProcessIdNo1 != Guid.Empty)
+                User user = await _iUnitOfWork.userRepository.GetByUserName(clientSubmitTaskDTO.userName);
+
+
+                //If  Submisstion from outhuser of the task is odds
+                if (processes.unanimousOrOdds == UnanimousOrOdds.Unanimous)
                 {
-                    Processes nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
-                    if (processes.nextProcessIdNo2 != Guid.Empty)
-                    {
-                        Processes nextProcessIdNo1 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
-                        if (nextProcessIdNo1.GitwayVarKey != "")
-                            foreach (var var in clientSubmitTaskDTO.varList)
-                                if (var.key == nextProcessIdNo1.GitwayVarKey)
-                                    if (var.value == nextProcessIdNo1.GitwayVarValu)
-                                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                    ICollection<User> outhusers = task.outhUser;
+                    outhusers.Remove(user);
 
-                        Processes nextProcessIdNo2 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
-                        if (nextProcessIdNo2.GitwayVarKey != "")
-                            foreach (var var in clientSubmitTaskDTO.varList)
-                                if (var.key == nextProcessIdNo2.GitwayVarKey)
-                                    if (var.value == nextProcessIdNo2.GitwayVarValu)
-                                        nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
-                    }
-
-                    ICollection<FormVariable> formVariables = new Collection<FormVariable>();
-                    foreach (var variable in clientSubmitTaskDTO.varList)
-                    {
-                        formVariables.Add(new FormVariable()
-                        {
-                            Key = variable.key,
-                            value = variable.value
-                        });
-                    }
-
-                    Tasks nextTask = new Tasks()
-                    {
-                        taskName = "Task",
-                        createOn = DateTime.Now,
-                        outhUser = nextProcesses.outhUser,
-                        runningRequests = task.runningRequests,
-                        process = nextProcesses,
-                        formVariable = formVariables
-                    };
-
-                    await _iUnitOfWork.tasksRepository.addNewTask(nextTask);
+                    task.outhUser = outhusers;
                 }
 
-                _iUnitOfWork.tasksRepository.RemoveTask(task);
+
+                //Check if Submisstion from outhuser of the task is unanimous or odds
+                if (processes.unanimousOrOdds == UnanimousOrOdds.Odds || task.outhUser.Count == 0)
+                {
+                    //Check if its the final process
+                    if (processes.nextProcessIdNo1 != Guid.Empty)
+                    {
+                        //Get wich is the Next Process
+                        Processes nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                        if (processes.nextProcessIdNo2 != Guid.Empty)
+                        {
+                            Processes nextProcessIdNo1 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+                            if (nextProcessIdNo1.GitwayVarKey != "")
+                                foreach (var var in clientSubmitTaskDTO.varList)
+                                    if (var.key == nextProcessIdNo1.GitwayVarKey)
+                                        if (var.value == nextProcessIdNo1.GitwayVarValu)
+                                            nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo1);
+
+                            Processes nextProcessIdNo2 = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                            if (nextProcessIdNo2.GitwayVarKey != "")
+                                foreach (var var in clientSubmitTaskDTO.varList)
+                                    if (var.key == nextProcessIdNo2.GitwayVarKey)
+                                        if (var.value == nextProcessIdNo2.GitwayVarValu)
+                                            nextProcesses = await _iUnitOfWork.processRepository.GetById(processes.nextProcessIdNo2);
+                        }
+
+                        //Get all variables from old task
+                        ICollection<FormVariable> formVariables = new Collection<FormVariable>();
+                        foreach (var variable in clientSubmitTaskDTO.varList)
+                        {
+                            formVariables.Add(new FormVariable()
+                            {
+                                Key = variable.key,
+                                value = variable.value
+                            });
+                        }
+
+                        //Create New Task
+                        Tasks nextTask = new Tasks()
+                        {
+                            taskName = "Task",
+                            createOn = DateTime.Now,
+                            outhUser = nextProcesses.outhUser,
+                            runningRequests = task.runningRequests,
+                            process = nextProcesses,
+                            formVariable = formVariables
+                        };
+
+                        //Add new task
+                        await _iUnitOfWork.tasksRepository.addNewTask(nextTask);
+                    }
+
+                    //Remove Old Task
+                    _iUnitOfWork.tasksRepository.RemoveTask(task);
+                }
                 //Save all changes
                 await _iUnitOfWork.Complete();
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Database.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models
@@ -11,6 +12,7 @@ namespace Database.Models
         public Guid nextProcessIdNo2 { get; set; }
         public string GitwayVarKey { get; set; }
         public string GitwayVarValu { get; set; }
+        public UnanimousOrOdds unanimousOrOdds { get; set; }
         public Guid formId { get; set; }
         public virtual Forms form { get; set; }
         public Guid digramId { get; set; }

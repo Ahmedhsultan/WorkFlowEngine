@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Database.Models.Enums;
+using Newtonsoft.Json;
 using WorkFlowEngine.Models.DeSerialization;
 
 namespace WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList
@@ -39,11 +40,12 @@ namespace WorkFlowEngine.Models.Services.ProcessServices.CreateNodeList
                 {
                     processId = GUIDmapper.FirstOrDefault(x => x.nodeId == node.id).GUID,
                     formId = new Guid(node.addInfo.FormId),
-                    outhUser = new List<string>() { node.addInfo.OuthUser },
+                    outhUser =  node.addInfo.OuthUser.Split(","),
                     GitwayVarKey = node.addInfo.GitwayVarKey,
                     GitwayVarValu = node.addInfo.GitwayVarValu,
                     nextProcessIdNo1 = GUIDmapper.FirstOrDefault(x => x.nodeId == targetIds[0]).GUID,
                     nextProcessIdNo2 = GUIDmapper.FirstOrDefault(x => x.nodeId == targetIds[1]).GUID,
+                    unanimousOrOdds = (UnanimousOrOdds)Enum.Parse(typeof(UnanimousOrOdds), node.addInfo.unanimousOrOdds, true)
                 });
             }
 

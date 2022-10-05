@@ -868,6 +868,7 @@
         public string OuthUser { get; set; }
         public string GitwayVarKey { get; set; }
         public string GitwayVarValu { get; set; }
+        public string unanimousOrOdds { get; set; }
     }
 
     public class Expandicon1

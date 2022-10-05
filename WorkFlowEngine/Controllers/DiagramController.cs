@@ -73,6 +73,7 @@ namespace WorkFlowEngine.Controllers
                         GitwayVarValu = process.GitwayVarValu,
                         nextProcessIdNo1 = process.nextProcessIdNo1,
                         nextProcessIdNo2 = process.nextProcessIdNo2,
+                        unanimousOrOdds = process.unanimousOrOdds
                     });
                 }
                 await _iUnitOfWork.Complete();
